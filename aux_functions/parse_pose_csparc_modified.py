@@ -7,6 +7,7 @@ import logging
 import numpy as np
 import torch
 from cryodrgn import lie_tools
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +32,13 @@ def add_args(parser):
     )
     return parser
 
+#EDIT Diego
+def modified_pose(dim_a, dim_b, num_pixels):
+    matrix = []
+    for _ in range(dim_a):
+        row = [random.randint(-num_pixels, num_pixels) for _ in range(dim_b)]
+        matrix.append(row)
+    return np.array(matrix)
 
 def main(args):
     assert args.input.endswith(".cs"), "Input format must be .cs file"
@@ -70,8 +78,11 @@ def main(args):
     ###########
     #aux = trans
     print(trans)
-    variations_5percent_vector_trans = np.random.uniform(0.90, 1.10, size=trans.shape)
-    trans = trans * variations_5percent_vector_trans
+    dim_rows = trans.shape[0]
+    dim_columns = trans.shape[1]
+    #variations_5percent_vector_trans = np.random.uniform(0.90, 1.10, size=trans.shape)
+    variations_5pixels_vector_trans = modified_pose(dim_rows, dim_columns, 5)
+    trans = trans + variations_5pixels_vector_trans
     np.set_printoptions(threshold=200)
     print(trans)
     #print(aux-trans)
