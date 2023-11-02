@@ -3,3 +3,4 @@ aux_functions/cryosparc_P4_J33_004_particles_5pixels_modified.pkl
 *.cs
 *.pkl
 *.mrc
+*.npy
