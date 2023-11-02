@@ -80,9 +80,11 @@ def main(args):
     print(trans)
     dim_rows = trans.shape[0]
     dim_columns = trans.shape[1]
+    variation = 5
     #variations_5percent_vector_trans = np.random.uniform(0.90, 1.10, size=trans.shape)
-    variations_5pixels_vector_trans = modified_pose(dim_rows, dim_columns, 5)
-    trans = trans + variations_5pixels_vector_trans
+    variations_vector_trans = modified_pose(dim_rows, dim_columns, variation)
+    np.save('uniform_' + str(variation) + '_pixels_variation.npy', variations_vector_trans)
+    trans = trans + variations_vector_trans
     np.set_printoptions(threshold=200)
     print(trans)
     #print(aux-trans)
