@@ -133,7 +133,7 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
         utils.save_pkl(umap_emb, f"{outdir}/umap.pkl")
     
     #EDIT Diego
-    #############################################
+    ##############################################
     # kmeans clustering on UMAPs
     logger.info("K-means clustering on UMAPs...")
     K = num_ksamples
@@ -146,7 +146,7 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
     np.savetxt(f"{outdir}/kmeans{K}_umap/centers_ind.txt", centers_ind_umap, fmt="%d")
     logger.info("Generating volumes from UMAP clustering...")
     vg.gen_volumes(f"{outdir}/kmeans{K}_umap", z[centers_ind_umap])
-    ###########################################
+    ############################################
 
     # Make some plots
     logger.info("Generating plots...")
