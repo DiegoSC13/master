@@ -131,6 +131,22 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
         logger.info("Running UMAP...")
         umap_emb = analysis.run_umap(z)
         utils.save_pkl(umap_emb, f"{outdir}/umap.pkl")
+    
+    #EDIT Diego
+    #############################################
+    # kmeans clustering on UMAPs
+    logger.info("K-means clustering on UMAPs...")
+    K = num_ksamples
+    kmeans_labels_umap, centers_umap = analysis.cluster_kmeans(umap_emb, K)
+    centers_umap, centers_ind_umap = analysis.get_nearest_point(umap_emb, centers_umap)
+    if not os.path.exists(f"{outdir}/kmeans{K}_umap"):
+        os.mkdir(f"{outdir}/kmeans{K}_umap")
+    utils.save_pkl(kmeans_labels_umap, f"{outdir}/kmeans{K}_umap/labels.pkl")
+    np.savetxt(f"{outdir}/kmeans{K}_umap/centers.txt", centers_umap)
+    np.savetxt(f"{outdir}/kmeans{K}_umap/centers_ind.txt", centers_ind_umap, fmt="%d")
+    logger.info("Generating volumes from UMAP clustering...")
+    vg.gen_volumes(f"{outdir}/kmeans{K}_umap", z[centers_ind_umap])
+    ###########################################
 
     # Make some plots
     logger.info("Generating plots...")
@@ -245,6 +261,56 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
         plt_umap_labels_jointplot(g)
         plt.tight_layout()
         plt.savefig(f"{outdir}/kmeans{K}/umap_hex.png")
+
+    #EDIT Diego
+    ###############################################
+    # Plot kmeans sample points
+    colors = analysis._get_chimerax_colors(K)
+    analysis.scatter_annotate(
+        pc[:, 0],
+        pc[:, 1],
+        centers_ind=centers_ind_umap,
+        annotate=True,
+        colors=colors,
+    )
+    plt_pc_labels()
+    plt.tight_layout()
+    plt.savefig(f"{outdir}/kmeans{K}_umap/z_pca.png")
+
+    g = analysis.scatter_annotate_hex(
+        pc[:, 0],
+        pc[:, 1],
+        centers_ind=centers_ind_umap,
+        annotate=True,
+        colors=colors,
+    )
+    plt_pc_labels_jointplot(g)
+    plt.tight_layout()
+    plt.savefig(f"{outdir}/kmeans{K}_umap/z_pca_hex.png")
+
+    if umap_emb is not None:
+        analysis.scatter_annotate(
+            umap_emb[:, 0],
+            umap_emb[:, 1],
+            centers_ind=centers_ind_umap,
+            annotate=True,
+            colors=colors,
+        )
+        plt_umap_labels()
+        plt.tight_layout()
+        plt.savefig(f"{outdir}/kmeans{K}_umap/umap.png")
+
+        g = analysis.scatter_annotate_hex(
+            umap_emb[:, 0],
+            umap_emb[:, 1],
+            centers_ind=centers_ind_umap,
+            annotate=True,
+            colors=colors,
+        )
+        plt_umap_labels_jointplot(g)
+        plt.tight_layout()
+        plt.savefig(f"{outdir}/kmeans{K}_umap/umap_hex.png")
+        #######################################################
 
     # Plot PC trajectories
     for i in range(num_pcs):
