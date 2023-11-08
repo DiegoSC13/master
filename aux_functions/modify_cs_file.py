@@ -1,4 +1,7 @@
-"""Parse image poses from a cryoSPARC .cs metafile"""
+"""Funcion que modifica un archivo .cs, es para generar estructuras en cryoSPARC con poses perturbadas
+    
+    Input: Archivo .cs
+    Output: Archivo .cs con poses perturbadas"""
 
 import argparse
 import os
@@ -8,7 +11,6 @@ import numpy as np
 import torch
 from cryodrgn import lie_tools
 import random
-import h5py
 
 logger = logging.getLogger(__name__)
 
@@ -66,11 +68,10 @@ def main(args):
     # parse translations
     logger.info(f"Extracting translations from {TKEY}")
     trans = np.array([x[TKEY] for x in data])
-    print('trans: ')
-    print(trans)
+
     dim_rows = trans.shape[0]
     dim_columns = trans.shape[1]
-    variation = 20
+    variation = 50
     variations_vector_trans = modified_pose(dim_rows, dim_columns, variation)
     #np.save('uniform_' + str(variation) + '_pixels_variation_modified_cs.npy', variations_vector_trans)
     trans = trans + variations_vector_trans
@@ -80,10 +81,15 @@ def main(args):
     for i in range(len(data)):
         data[i][TKEY] = trans[i]
 
-    new_cs_filename = args.input.replace('.cs', '_' + str(variation) + '_pixels_variation')
-    new_cs_full_filename = new_cs_filename + '.npy'
-    np.save(new_cs_filename, data)
-    os.rename(new_cs_full_filename, new_cs_full_filename.replace(".npy", ".cs"))
+######PROBAR PROBAR PROBAR
+    with open('sss.cs', 'w') as archivo:
+        # Escribe los datos modificados en el archivo
+        archivo.write(tus_datos_modificados)
+
+    # new_cs_filename = args.input.replace('.cs', '_' + str(variation) + '_pixels_variation')
+    # new_cs_full_filename = new_cs_filename + '.npy'
+    # np.save(new_cs_filename, data)
+    # os.rename(new_cs_full_filename, new_cs_full_filename.replace(".npy", ".cs"))
 
 
 if __name__ == "__main__":
