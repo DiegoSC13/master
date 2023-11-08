@@ -8,6 +8,7 @@ import numpy as np
 import torch
 from cryodrgn import lie_tools
 import random
+import h5py
 
 logger = logging.getLogger(__name__)
 
@@ -61,30 +62,28 @@ def main(args):
     rot = np.array([x[RKEY] for x in data])
     print('rot:')
     print(rot)
-    # rot = torch.tensor(rot)
-    # rot = lie_tools.expmap(rot)
-    # rot = rot.cpu().numpy()
-    # logger.info("Transposing rotation matrix")
-    # rot = np.array([x.T for x in rot])
-    # logger.info(rot.shape)
 
     # parse translations
     logger.info(f"Extracting translations from {TKEY}")
     trans = np.array([x[TKEY] for x in data])
     print('trans: ')
     print(trans)
-    # if args.hetrefine:
-    #     logger.info("Scaling shifts by 2x")
-    #     trans *= 2
-    # logger.info(trans.shape)
+    dim_rows = trans.shape[0]
+    dim_columns = trans.shape[1]
+    variation = 20
+    variations_vector_trans = modified_pose(dim_rows, dim_columns, variation)
+    #np.save('uniform_' + str(variation) + '_pixels_variation_modified_cs.npy', variations_vector_trans)
+    trans = trans + variations_vector_trans
 
-    # convert translations from pixels to fraction
-    # trans /= args.D
+    # with h5py.File(args.input, "r+") as f:
+    #     f['/alignments3D/shift'][:] = trans
+    for i in range(len(data)):
+        data[i][TKEY] = trans[i]
 
-    # # write output
-    # logger.info(f"Writing {args.o}")
-    # with open(args.o, "wb") as f:
-    #     pickle.dump((rot, trans), f)
+    new_cs_filename = args.input.replace('.cs', '_' + str(variation) + '_pixels_variation')
+    new_cs_full_filename = new_cs_filename + '.npy'
+    np.save(new_cs_filename, data)
+    os.rename(new_cs_full_filename, new_cs_full_filename.replace(".npy", ".cs"))
 
 
 if __name__ == "__main__":
