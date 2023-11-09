@@ -71,7 +71,7 @@ def main(args):
 
     dim_rows = trans.shape[0]
     dim_columns = trans.shape[1]
-    variation = 50
+    variation = 10
     variations_vector_trans = modified_pose(dim_rows, dim_columns, variation)
     #np.save('uniform_' + str(variation) + '_pixels_variation_modified_cs.npy', variations_vector_trans)
     trans = trans + variations_vector_trans
@@ -81,11 +81,13 @@ def main(args):
     for i in range(len(data)):
         data[i][TKEY] = trans[i]
 
-######PROBAR PROBAR PROBAR
-    with open('sss.cs', 'w') as archivo:
-        # Escribe los datos modificados en el archivo
-        archivo.write(tus_datos_modificados)
+    
+    #NO ANDUVO
+    # with open(args.input.split('.')[0] + '_' + str(variation) + 'pixels', 'w') as archivo:
+    #     # Escribe los datos modificados en el archivo
+    #     archivo.write(tus_datos_modificados)
 
+    #NO ANDUVO
     # new_cs_filename = args.input.replace('.cs', '_' + str(variation) + '_pixels_variation')
     # new_cs_full_filename = new_cs_filename + '.npy'
     # np.save(new_cs_filename, data)
