@@ -75,38 +75,51 @@ def max_per_list(lists):
     maxs = list(map(max, lists))
     return maxs
 
-def encontrar_listas_vacias(lista_de_listas):
-    posiciones_listas_vacias = []
+def empty_or_filled_lists(lista_de_listas):
+    empty_positions = []
+    filled_positions = []
 
     for i, sublista in enumerate(lista_de_listas):
         if not sublista:
-            posiciones_listas_vacias.append(i)
+            empty_positions.append(i)
+        else:
+            filled_positions.append(i)
 
-    return posiciones_listas_vacias
+    return empty_positions, filled_positions
 
 def main(args):
     #assert args.input.endswith(".cs"), "Input format must be .cs file"
     files = os.listdir(args.input)
+    rots = []
+    trans = []
     idxs = []
     corrs = []
     for file in files:
-        rot, trans, corr, idx = extract_info_from_cs(os.path.join(args.input, file))
+        rot, tran, corr, idx = extract_info_from_cs(os.path.join(args.input, file))
         #sublist = [idx, corr]
         #sublist = list(zip(idx, corr))
+        rots.append(rot)
+        trans.append(tran)
         idxs.append(idx)
         corrs.append(corr)
 
+
     sublist = [(idx_tot, corr_tot) for idx_tot, corr_tot in zip(idxs, corrs)]
     final_list = relation_idx_corr(args.N, sublist)
-    print(final_list[0:3])
-    posiciones_listas_vacias = encontrar_listas_vacias(final_list)
+    print(len(idxs))
+    empty_lists_idx, filled_lists_idx = empty_or_filled_lists(final_list)
 
-    if posiciones_listas_vacias:
-        print("Listas vacías encontradas en las posiciones:", posiciones_listas_vacias)
+    #Save particles idx for cryoDRGN training
+    with open('filtered_particles_' + args.input + '.pkl', "wb") as f:
+        pickle.dump(filled_lists_idx, f)
+
+    if empty_lists_idx:
+        print("Listas vacías encontradas en las posiciones:", empty_lists_idx)
     else:
         print("No se encontraron listas vacías.")
-    #output_list = max_per_list(final_list)
-    #print(output_list[0:3])
+    print(final_list[3])
+    # output_list = max_per_list(final_list)
+    # print(output_list[0:3])
 
 
 

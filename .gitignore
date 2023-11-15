@@ -3,3 +3,4 @@
 *.mrc
 *.npy
 *.txt
+aux_functions/__pycache__/compare_poses.cpython-39.pyc
