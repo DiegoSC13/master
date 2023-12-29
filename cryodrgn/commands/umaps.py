@@ -1,5 +1,5 @@
 """
-Visualize latent space and generate volumes
+Calculate and save UMAPs for each particle
 """
 
 import argparse

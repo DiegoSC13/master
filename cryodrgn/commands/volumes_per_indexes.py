@@ -121,7 +121,10 @@ def analyze_zN(z, outdir, vg, umap_dir=None, num_pcs=2, num_ksamples=20, indexes
         umap_emb = analysis.run_umap(z)
         utils.save_pkl(umap_emb, f"{outdir}/umap.pkl")
     elif umap_dir != None:
-        umap_emb = pickle.load(umap_dir) #Tengo que pasarle la dir de umap.pkl
+        with open(umap_dir, 'rb') as archivo:
+            # Utiliza la función load para deserializar el contenido del archivo
+            umap_emb= pickle.load(archivo)
+            # umap_emb = pickle.load(umap_dir) #Tengo que pasarle la dir de umap.pkl
 
     #Genero volúmenes según los índices que le pida
     if not os.path.exists(f"{outdir}/volumes_per_indexes"):
@@ -193,8 +196,8 @@ def main(args):
     if not os.path.exists(outdir):
         os.mkdir(outdir)
 
-    if args.umap:
-        umap_dir = args.umap
+    if args.umaps:
+        umap_dir = args.umaps
     else:
         umap_dir = None
 
