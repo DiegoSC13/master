@@ -30,6 +30,13 @@ def add_args(parser):
     return parser
 
 def extract_info_from_cs(cs_file):
+    ''''
+    INPUT: .cs file from cryoSPARC
+    OUTPUT: Rotation arrays, translation arrays, cross_correlation arrays and indexes arrays
+    COMMENTS: Extraigo la información relevante para el procesamiento de las poses. Necesito rotaciones y 
+    traslaciones para cryoDRGN, la correlación y los índices son para comparar los K vectores de poses de 
+    cada partícula y evaluar cuál es el mejor.
+    '''
     data = np.load(cs_file)
     # view the first row
     for i in range(len(data.dtype)):
@@ -59,6 +66,11 @@ def extract_info_from_cs(cs_file):
     return rot, trans, corr, idx
 
 def relation_idx_corr(N, sublist):
+    ''''
+    INPUT: Num of particles, 
+    OUTPUT:
+    COMMENTS:
+    '''
     # Inicializar la lista final con listas vacías
     final_list = [[] for _ in range(N)]
 
