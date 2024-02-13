@@ -1,4 +1,5 @@
-"""Read alignment files, compare and merge them into one .pkl file"""
+"""Functions to extract information from  cryoSPARC output (.cs file) 
+   and preprocess it for cryoDRGN"""
 
 import argparse
 import os
@@ -33,7 +34,7 @@ def extract_info_from_cs(cs_file):
     ''''
     INPUT: .cs file from cryoSPARC
     OUTPUT: Rotation arrays, translation arrays, cross_correlation arrays and indexes arrays
-    COMMENTS: Extraigo la información relevante para el procesamiento de las poses. Necesito rotaciones y 
+    COMMENT: Extraigo la información relevante para el procesamiento de las poses. Necesito rotaciones y 
     traslaciones para cryoDRGN, la correlación y los índices son para comparar los K vectores de poses de 
     cada partícula y evaluar cuál es el mejor.
     '''
@@ -65,12 +66,15 @@ def extract_info_from_cs(cs_file):
 
     return rot, trans, corr, idx
 
-def relation_idx_corr(N, sublist):
+def relation_idx_corr(N, idxs, corrs):
     ''''
     INPUT: Num of particles, 
     OUTPUT:
-    COMMENTS:
+    COMMENT:
     '''
+
+    sublist = [(idx_tot, corr_tot) for idx_tot, corr_tot in zip(idxs, corrs)]
+
     # Inicializar la lista final con listas vacías
     final_list = [[] for _ in range(N)]
 
@@ -83,11 +87,21 @@ def relation_idx_corr(N, sublist):
     return final_list
 
 def max_per_list(lists):
+    ''''
+    INPUT: Num of particles, 
+    OUTPUT:
+    COMMENT:
+    '''
     # Usa la función map con max para obtener el máximo en cada lista
     maxs = list(map(max, lists))
     return maxs
 
 def empty_or_filled_lists(lista_de_listas):
+    ''''
+    INPUT: Num of particles, 
+    OUTPUT:
+    COMMENT:
+    '''
     empty_positions = []
     filled_positions = []
 
