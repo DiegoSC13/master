@@ -60,13 +60,13 @@ def extract_info_from_cs(cs_file):
     logger.info(f"Extracting cross_correlations from {CORRKEY}")
     corr = np.array([x[CORRKEY] for x in data])
 
-    # parse cross_correlations
+    # parse indexes
     logger.info(f"Extracting indexs from {IDXKEY}")
     idx = np.array([x[IDXKEY] for x in data])
 
     return rot, trans, corr, idx
 
-def relation_idx_corr(N, idxs, corrs):
+def relation_idx_corr_new(N, idxs, corrs):
     ''''
     INPUT: Num of particles, 
     OUTPUT:
@@ -85,6 +85,17 @@ def relation_idx_corr(N, idxs, corrs):
             final_list[i].append(value)
 
     return final_list
+
+def max_corr(final_list):
+    max_corr = []
+
+    for corr_per_idx in final_list:
+        if corr_per_idx != []:
+            max_corr.append(np.max(corr_per_idx))
+        else:
+            max_corr.append(0)
+    
+    return max_corr
 
 def max_per_list(lists):
     ''''
@@ -112,6 +123,28 @@ def empty_or_filled_lists(lista_de_listas):
             filled_positions.append(i)
 
     return empty_positions, filled_positions
+
+def poses_for_cryodrgn(rott, transs, D, output_path):
+    D = 320
+    rot_iteration_n_np = np.array(rott)
+    tran_iteration_n_np = np.array(transs)
+
+    #Converting Euler Angles in rotation matrix for cryoDRGN
+    rot = torch.tensor(rot_iteration_n_np)
+    rot = lie_tools.expmap(rot)
+    rot = rot.cpu().numpy()
+    logger.info("Transposing rotation matrix")
+    rot = np.array([x.T for x in rot])
+    logger.info(rot.shape)
+
+    # convert translations from pixels to fraction
+    trans = tran_iteration_n_np/D
+
+    #with open('/nfs/bartesaghilab2/ds672/empiar10076/inputs/mine_poses_iteration_2_2023_11_25_all_particles.pkl', "wb") as f:
+    with open(output_path, "wb") as f:
+        pickle.dump((rot, trans), f)
+
+    return 
 
 def main(args):
     #assert args.input.endswith(".cs"), "Input format must be .cs file"

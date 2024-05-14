@@ -91,7 +91,11 @@ def add_args(parser):
 
 
 def analyze_z1(z, outdir, vg):
-    """Plotting and volume generation for 1D z"""
+    """
+    z-Plotting and generating volume for 1D z
+    Input: z vectors, output directory and vg (???)
+    Output: Plot z, Histogram of z and apparently some volumes, but not sure of the last one 
+    """
     assert z.shape[1] == 1
     z = z.reshape(-1)
     N = len(z)
@@ -112,6 +116,11 @@ def analyze_z1(z, outdir, vg):
 
 
 def analyze_zN(z, outdir, vg, umap_dir=None, num_pcs=2, num_ksamples=20, indexes_list=None):
+    '''
+    description
+    Input:
+    Output:
+    '''
     zdim = z.shape[1]
 
     # UMAP -- slow step
