@@ -40,8 +40,8 @@ def extract_info_from_cs(cs_file):
     '''
     data = np.load(cs_file)
     # view the first row
-    for i in range(len(data.dtype)):
-        print(i, data.dtype.names[i], data[0][i])
+    # for i in range(len(data.dtype)):
+    #     print(i, data.dtype.names[i], data[0][i])
 
     RKEY = "alignments3D/pose"
     TKEY = "alignments3D/shift"
@@ -66,21 +66,22 @@ def extract_info_from_cs(cs_file):
 
     return rot, trans, corr, idx
 
-def relation_idx_corr_new(N, idxs, corrs):
+def relation_idx_corr_new(N, K_idxs, K_corrs):
     ''''
-    INPUT: Num of particles, 
+    INPUT: Número de partículas, lista de índices, lista de correlaciones cruzadas
     OUTPUT:
     COMMENT:
     '''
 
-    sublist = [(idx_tot, corr_tot) for idx_tot, corr_tot in zip(idxs, corrs)]
+    #Armo lista de tuplas con elementos de idxs y corrs
+    sublist = [(idx_tot, corr_tot) for idx_tot, corr_tot in zip(K_idxs, K_corrs)]
 
-    # Inicializar la lista final con listas vacías
+    # Inicializar la lista final con N listas vacías
     final_list = [[] for _ in range(N)]
 
     # Recorrer las sublistas
     for positions, values in sublist:
-        # Asignar los valores a las posiciones correspondientes en la lista final
+        # Asignar las correlaciones cruzadas de cada índice en la lista final
         for i, value in zip(positions, values):
             final_list[i].append(value)
 
@@ -97,15 +98,15 @@ def max_corr(final_list):
     
     return max_corr
 
-def max_per_list(lists):
-    ''''
-    INPUT: Num of particles, 
-    OUTPUT:
-    COMMENT:
-    '''
-    # Usa la función map con max para obtener el máximo en cada lista
-    maxs = list(map(max, lists))
-    return maxs
+# def max_per_list(lists):
+#     ''''
+#     INPUT: Num of particles, 
+#     OUTPUT:
+#     COMMENT:
+#     '''
+#     # Usa la función map con max para obtener el máximo en cada lista
+#     maxs = list(map(max, lists))
+#     return maxs
 
 def empty_or_filled_lists(lista_de_listas):
     ''''
