@@ -125,8 +125,7 @@ def empty_or_filled_lists(lista_de_listas):
 
     return empty_positions, filled_positions
 
-def poses_for_cryodrgn(rott, transs, D, output_path):
-    D = 320
+def poses_for_cryodrgn(rott, transs, output_path = None, D = 320):
     rot_iteration_n_np = np.array(rott)
     tran_iteration_n_np = np.array(transs)
 
@@ -142,10 +141,11 @@ def poses_for_cryodrgn(rott, transs, D, output_path):
     trans = tran_iteration_n_np/D
 
     #with open('/nfs/bartesaghilab2/ds672/empiar10076/inputs/mine_poses_iteration_2_2023_11_25_all_particles.pkl', "wb") as f:
-    with open(output_path, "wb") as f:
-        pickle.dump((rot, trans), f)
+    if output_path != None:
+        with open(output_path, "wb") as f:
+            pickle.dump((rot, trans), f)
 
-    return 
+    return rot, trans
 
 def main(args):
     #assert args.input.endswith(".cs"), "Input format must be .cs file"
