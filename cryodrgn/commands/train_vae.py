@@ -1,6 +1,7 @@
 """
 Train a VAE for heterogeneous reconstruction with known pose
 """
+
 import argparse
 import os
 import pickle
