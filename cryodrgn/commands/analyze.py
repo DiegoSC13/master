@@ -142,6 +142,7 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
     if not os.path.exists(f"{outdir}/kmeans{K}_umap"):
         os.mkdir(f"{outdir}/kmeans{K}_umap")
     utils.save_pkl(kmeans_labels_umap, f"{outdir}/kmeans{K}_umap/labels.pkl")
+    #np.savetxt(f"{outdir}/kmeans{K}_umap/kmeans_labels.txt", kmeans_labels_umap)
     np.savetxt(f"{outdir}/kmeans{K}_umap/centers.txt", centers_umap)
     np.savetxt(f"{outdir}/kmeans{K}_umap/centers_ind.txt", centers_ind_umap, fmt="%d")
     logger.info("Generating volumes from UMAP clustering...")
