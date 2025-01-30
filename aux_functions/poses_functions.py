@@ -91,14 +91,14 @@ def process_and_save_data(cs_file, pkl_file, remove_cs = False):
     
     return
 
-def read_pkl(pkl_file):
+def read_pkl(pkl_path):
     """
-    Lee un archivo .pkl y muestra el contenido de cada array.
-    
-    Args:
-        pkl_file (str): Nombre del archivo .pkl a leer.
+    Lee un archivo .pkl y devuelve el contenido de cada array.
+    Input: pkl_file (str): Path del archivo .pkl a leer.
+    Output: Arreglo de rotaciones, traslaciones, correlaciones cruzadas de poses e índices
+    Ejemplo de uso: rot, trans, corr, idx = read_pkl(cs_dir.split('.')[0] + '.pkl') #cs_dir tiene el directorio .cs, por eso se cambia la extensión a pkl
     """
-    with open(pkl_file, 'rb') as file:
+    with open(pkl_path, 'rb') as file:
         data = pickle.load(file)
     
     # Acceso a los arrays
@@ -106,6 +106,6 @@ def read_pkl(pkl_file):
     trans = data['trans']
     corr = data['corr']
     idx = data['idx']
-    
-    return
+
+    return rot, trans, corr, idx
 
