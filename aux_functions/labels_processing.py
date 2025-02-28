@@ -40,10 +40,10 @@ def labels_per_classes(labels_path, output_path):
             pickle.dump(list_, file)
     return
 
-def select_rows_star(input_path, output_path, indexes):
+def select_rows_star(input_path, output_path, indexes, metadata_row_num=13):
     '''
     Función que crea archivos .star a partir del .star original y una lista con los índices de las partículas a utilizar
-    Input: Path al .star original, Path para guardar el .star de salida e índices de partículas a utilizar
+    Input: Path al .star original, Path para guardar el .star de salida, índices de partículas a utilizar y número de filas de la metadata
     Output: Archivo .star solo con las partículas a utilizar
     Ejemplo de uso:
     with open('./particles_per_classes/particles_class_4.pkl', 'rb') as file:
@@ -54,7 +54,7 @@ def select_rows_star(input_path, output_path, indexes):
     '''
     with open(input_path, 'r') as f:
         lines = f.readlines()
-    metadata  = lines[:13] #13 lineas de metadata antes de ir particula por particula
+    metadata  = lines[:metadata_row_num] #13 lineas de metadata (EMPIAR-10076) antes de ir particula por particula
     # Extraer solo las líneas con los índices especificados
     selected_lines = [line for i, line in enumerate(lines) if i in indexes] 
     #selected_lines_ = [x + const_ for x in selected_lines]
