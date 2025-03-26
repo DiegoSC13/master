@@ -63,7 +63,7 @@ def select_rows_star(input_path, output_path, indexes, metadata_row_num=13):
         f.writelines(final_lines)
     return
 
-def labels_processing(labels_pkl_path, particles_per_label_folder, output_folder, starfile_path, iter):
+def labels_processing(labels_pkl_path, particles_per_label_folder, output_folder, starfile_path, iter, metadata_row_num=13):
     '''
     Entrada:
     Path al archivo pkl, Path a guardar pkl's con índices por clase, path a guardar .star por clase,
@@ -105,9 +105,9 @@ def labels_processing(labels_pkl_path, particles_per_label_folder, output_folder
         file_path = os.path.join(particles_per_label_folder, file)  # Corrección del path
         with open(file_path, 'rb') as label_file:
             particles = pickle.load(label_file)
-            particles = [x + 12 for x in particles]
+            particles = [x + metadata_row_num - 1  for x in particles] #Antes metadata_row_num=13 siempre y acá había un 12
         output_starfile = os.path.join(output_folder, f'Cluster{cont}_iter{iter}_.star')
-        select_rows_star(starfile_path, output_starfile, particles)
+        select_rows_star(starfile_path, output_starfile, particles, metadata_row_num)
         cont += 1
     return
 
@@ -118,11 +118,18 @@ if __name__ == "__main__":
     parser.add_argument("output_folder", help="Ruta de la carpeta donde se guardarán los resultados.")
     parser.add_argument("starfile_path", help="Ruta del archivo .star base.")
     parser.add_argument("iter", type=int, help="Número de iteración.")
-
+    group = parser.add_argument_group("Extra arguments")
+    group.add_argument(
+        "metadata_row_num",
+        type=int,
+        default=13,
+        help="Cantidad de líneas de metadata antes de las partículas",
+    )
     args = parser.parse_args()
 
     labels_processing(args.labels_pkl_path, 
                       args.particles_per_label_folder, 
                       args.output_folder, 
                       args.starfile_path, 
-                      args.iter)
+                      args.iter,
+                      args.metadata_row_num)

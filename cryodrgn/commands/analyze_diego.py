@@ -77,7 +77,12 @@ def add_args(parser):
         default=0,
         help="Default value of start index for volume generation (default: %(default)s)",
     )
-
+    group.add_argument(
+        "--cal_umap",
+        type=str,
+        default=None,
+        help="En caso de haber calculado UMAPs antes, le paso el path acá y no lo vuelvo a calcular (default: %(default)s)",
+    )
     return parser
 
 
@@ -104,38 +109,59 @@ def analyze_z1(z, outdir, vg):
 
 def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
     zdim = z.shape[1]
+    K = num_ksamples
+
+    #Genero directorios para guardar K-Means en z, PCA y UMAPs
+    if not os.path.exists(f"{outdir}/kmeans{K}_z"):
+        os.mkdir(f"{outdir}/kmeans{K}_z")
+        if not os.path.exists(f"{outdir}/kmeans{K}_pca"):
+        os.mkdir(f"{outdir}/kmeans{K}_pca")
+    if not os.path.exists(f"{outdir}/kmeans{K}_umap"):
+        os.mkdir(f"{outdir}/kmeans{K}_umap")
 
     # Principal component analysis
     logger.info("Performing principal component analysis...")
     pc, pca = analysis.run_pca(z)
+    print(f'{len(pc)=}')
+    print(f'{len(pca)=}')
     logger.info("Generating volumes...")
     for i in range(num_pcs):
         start, end = np.percentile(pc[:, i], (5, 95))
         z_pc = analysis.get_pc_traj(pca, z.shape[1], 10, i + 1, start, end)
         vg.gen_volumes(f"{outdir}/pc{i+1}", z_pc)
 
-    # kmeans clustering
-    logger.info("K-means clustering...")
-    K = num_ksamples
-    kmeans_labels, centers = analysis.cluster_kmeans(z, K)
-    centers, centers_ind = analysis.get_nearest_point(z, centers)
-    if not os.path.exists(f"{outdir}/kmeans{K}"):
-        os.mkdir(f"{outdir}/kmeans{K}")
-    utils.save_pkl(kmeans_labels, f"{outdir}/kmeans{K}/labels.pkl")
-    np.savetxt(f"{outdir}/kmeans{K}/centers.txt", centers)
-    np.savetxt(f"{outdir}/kmeans{K}/centers_ind.txt", centers_ind, fmt="%d")
+    # kmeans clustering on z
+    logger.info("K-means clustering on z...")
+    kmeans_labels, centers = analysis.cluster_kmeans(pca, K)
+    centers, centers_ind = analysis.get_nearest_point(pca, centers)
+    #if not os.path.exists(f"{outdir}/kmeans{K}"):
+    #   os.mkdir(f"{outdir}/kmeans{K}")
+    utils.save_pkl(kmeans_labels, f"{outdir}/kmeans{K}_pca/labels.pkl")
+    np.savetxt(f"{outdir}/kmeans{K}_pca/centers.txt", centers)
+    np.savetxt(f"{outdir}/kmeans{K}_pca/centers_ind.txt", centers_ind, fmt="%d")
     logger.info("Generating volumes...")
-    vg.gen_volumes(f"{outdir}/kmeans{K}", centers)
+    vg.gen_volumes(f"{outdir}/kmeans{K}_pca", centers)
+
+    # kmeans clustering on z
+    logger.info("K-means clustering on PCA...")
+    kmeans_labels, centers = analysis.cluster_kmeans(, K)
+    centers, centers_ind = analysis.get_nearest_point(z, centers)
+    #if not os.path.exists(f"{outdir}/kmeans{K}"):
+    #   os.mkdir(f"{outdir}/kmeans{K}")
+    utils.save_pkl(kmeans_labels, f"{outdir}/kmeans{K}_z/labels.pkl")
+    np.savetxt(f"{outdir}/kmeans{K}_z/centers.txt", centers)
+    np.savetxt(f"{outdir}/kmeans{K}_z/centers_ind.txt", centers_ind, fmt="%d")
+    logger.info("Generating volumes...")
+    vg.gen_volumes(f"{outdir}/kmeans{K}_z", centers)
 
     # UMAP -- slow step
-    umap_emb = None
-    if zdim > 2 and not skip_umap:
-        logger.info("Running UMAP...")
-        umap_emb = analysis.run_umap(z)
-        utils.save_pkl(umap_emb, f"{outdir}/umap.pkl")
+    if cal_umap == None:
+        umap_emb = None
+        if zdim > 2 and not skip_umap:
+            logger.info("Running UMAP...")
+            umap_emb = analysis.run_umap(z)
+            utils.save_pkl(umap_emb, f"{outdir}/umap.pkl")
     
-    #EDIT Diego
-    ##############################################
     # kmeans clustering on UMAPs
     if umap_emb is None:
         with open(f"{outdir}/umap.pkl", 'rb') as file:
