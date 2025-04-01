@@ -112,7 +112,7 @@ def cluster_kmeans(
     Returns cluster labels, cluster centers
     If reorder=True, reorders clusters according to agglomerative clustering of cluster centers
     """
-    kmeans = KMeans(n_clusters=K, random_state=0, max_iter=10)
+    kmeans = KMeans(n_clusters=K, init="k-means++", n_init=10, random_state=42, max_iter=10)
     labels = kmeans.fit_predict(z)
     centers = kmeans.cluster_centers_
 
