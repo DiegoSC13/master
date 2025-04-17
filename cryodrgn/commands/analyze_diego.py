@@ -123,35 +123,35 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
     # Principal component analysis
     logger.info("Performing principal component analysis...")
     pc, pca = analysis.run_pca(z)
-    logger.info("Generating volumes...")
-    for i in range(num_pcs):
-        start, end = np.percentile(pc[:, i], (5, 95))
-        z_pc = analysis.get_pc_traj(pca, z.shape[1], 10, i + 1, start, end)
-        vg.gen_volumes(f"{outdir}/pc{i+1}", z_pc)
+    # logger.info("Generating volumes...")
+    # for i in range(num_pcs):
+    #     start, end = np.percentile(pc[:, i], (5, 95))
+    #     z_pc = analysis.get_pc_traj(pca, z.shape[1], 10, i + 1, start, end)
+    #     vg.gen_volumes(f"{outdir}/pc{i+1}", z_pc)
 
     # kmeans clustering on z
     logger.info("K-means clustering on z...")
     #pc = np.array(pc).reshape(N, num_pcs)
-    kmeans_labels, centers = analysis.cluster_kmeans(z, K)
-    centers, centers_ind = analysis.get_nearest_point(z, centers)
+    kmeans_labels_z, centers_z = analysis.cluster_kmeans(z, K)
+    centers_z, centers_ind = analysis.get_nearest_point(z, centers_z)
     #if not os.path.exists(f"{outdir}/kmeans{K}"):
     #   os.mkdir(f"{outdir}/kmeans{K}")
-    utils.save_pkl(kmeans_labels, f"{outdir}/kmeans{K}_z/labels.pkl")
-    np.savetxt(f"{outdir}/kmeans{K}_z/centers.txt", centers)
+    utils.save_pkl(kmeans_labels_z, f"{outdir}/kmeans{K}_z/labels.pkl")
+    np.savetxt(f"{outdir}/kmeans{K}_z/centers.txt", centers_z)
     np.savetxt(f"{outdir}/kmeans{K}_z/centers_ind.txt", centers_ind, fmt="%d")
-    logger.info("Generating volumes...")
-    vg.gen_volumes(f"{outdir}/kmeans{K}_z", centers)
+    logger.info("Generating center volumes for z-KMeans...")
+    vg.gen_volumes(f"{outdir}/kmeans{K}_z", centers_z)
 
-    # kmeans clustering on z
+    # kmeans clustering on PCA
     logger.info("K-means clustering on PCA...")
     kmeans_labels_pca, centers_pca = analysis.cluster_kmeans(pc, K)
-    centers_pca, centers_ind_pca = analysis.get_nearest_point(pc, centers)
+    centers_pca, centers_ind_pca = analysis.get_nearest_point(pc, centers_pca)
     #if not os.path.exists(f"{outdir}/kmeans{K}"):
     #   os.mkdir(f"{outdir}/kmeans{K}")
     utils.save_pkl(kmeans_labels_pca, f"{outdir}/kmeans{K}_pca/labels.pkl")
     np.savetxt(f"{outdir}/kmeans{K}_pca/centers.txt", centers_pca)
     np.savetxt(f"{outdir}/kmeans{K}_pca/centers_ind.txt", centers_ind_pca, fmt="%d")
-    logger.info("Generating volumes...")
+    logger.info("Generating center volumes for PCA-KMeans...")
     vg.gen_volumes(f"{outdir}/kmeans{K}_pca", centers_pca)
 
     # UMAP -- slow step
@@ -175,7 +175,7 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
     #np.savetxt(f"{outdir}/kmeans{K}_umap/kmeans_labels.txt", kmeans_labels_umap)
     np.savetxt(f"{outdir}/kmeans{K}_umap/centers.txt", kmeans_centers_umap)
     np.savetxt(f"{outdir}/kmeans{K}_umap/centers_ind.txt", kmeans_centers_ind_umap, fmt="%d")
-    logger.info("Generating volumes from UMAP clustering...")
+    logger.info("Generating center volumes for UMAP-KMeans...")
     vg.gen_volumes(f"{outdir}/kmeans{K}_umap", z[kmeans_centers_ind_umap])
     ############################################
 
@@ -188,7 +188,7 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
     #np.savetxt(f"{outdir}/gmm{K}_umap/gmm_labels.txt", gmm_labels_umap)
     np.savetxt(f"{outdir}/gmm{K}_umap/centers.txt", gmm_centers_umap)
     np.savetxt(f"{outdir}/gmm{K}_umap/centers_ind.txt", gmm_centers_ind_umap, fmt="%d")
-    logger.info("Generating volumes from UMAP clustering...")
+    logger.info("Generating volumes from GMM clustering...")
     vg.gen_volumes(f"{outdir}/gmm{K}_umap", z[gmm_centers_ind_umap])
 
     # Make some plots
@@ -432,7 +432,7 @@ def main(args):
     out_ipynb = f"{outdir}/cryoDRGN_figures_diego.ipynb"
     if not os.path.exists(out_ipynb):
         logger.info("Creating jupyter notebook...")
-        ipynb = f"{cryodrgn._ROOT}/templates/cryoDRGN_figures_template_diego.ipynb"
+        ipynb = f"{cryodrgn._ROOT}/templates/cryoDRGN_diego_template.ipynb"
         shutil.copyfile(ipynb, out_ipynb)
     else:
         logger.info(f"{out_ipynb} already exists. Skipping")
