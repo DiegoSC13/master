@@ -4,5 +4,7 @@
 *.npy
 *.txt
 *.par
+*.star
 aux_functions/__pycache__/compare_poses.cpython-39.pyc
+
 
