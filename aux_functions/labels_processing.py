@@ -9,7 +9,7 @@ def labels_per_classes(labels_path, output_path):
     '''
     Recibe salida labels.pkl de cryoDRGN y separa índices de partículas por clases
     Input: Path de labels.pkl, path donde crea carpeta particles_per_classes
-    Output: K archivos particles_class_X en output_path
+    Output: K archivos particles_class_X.pkl en output_path
     Ejemplo de uso: labels_per_classes('./labels.pkl','./particles_per_classes')
     '''
     with open(labels_path, 'rb') as file:
@@ -22,8 +22,8 @@ def labels_per_classes(labels_path, output_path):
     for index, label in zip(indexes, labels):
         particle_per_class[label].append(index)  
 
-    for class_, list_ in particle_per_class.items():
-        globals()[f"particles_class_{class_}"] = list_
+    # for class_, list_ in particle_per_class.items():
+    #     globals()[f"particles_class_{class_}"] = list_
 
     particles_per_classes = [particle_per_class[k] for k in sorted(particle_per_class.keys())]
 
@@ -56,8 +56,11 @@ def select_rows_star(input_path, output_path, indexes, metadata_row_num=13):
         lines = f.readlines()
     metadata  = lines[:metadata_row_num] #13 lineas de metadata (EMPIAR-10076) antes de ir particula por particula
     # Extraer solo las líneas con los índices especificados
-    selected_lines = [line for i, line in enumerate(lines) if i in indexes] 
+    #selected_lines = [line for i, line in enumerate(lines) if i in indexes] 
     #selected_lines_ = [x + const_ for x in selected_lines]
+    indexes_set = set(indexes)
+    selected_lines = [line for i, line in enumerate(lines) if i in indexes_set]
+
     final_lines = metadata + selected_lines
     with open(output_path, 'w') as f: #Si ya había otro archivo con el mismo nombre lo sobreescribe
         f.writelines(final_lines)
@@ -106,7 +109,7 @@ def labels_processing(labels_pkl_path, particles_per_label_folder, output_folder
         with open(file_path, 'rb') as label_file:
             particles = pickle.load(label_file)
             particles = [x + metadata_row_num - 1  for x in particles] #Antes metadata_row_num=13 siempre y acá había un 12
-        output_starfile = os.path.join(output_folder, f'Cluster{cont}_iter{iter}_.star')
+        output_starfile = os.path.join(output_folder, f'Cluster{cont}_iter{iter}.star')
         select_rows_star(starfile_path, output_starfile, particles, metadata_row_num)
         cont += 1
     return

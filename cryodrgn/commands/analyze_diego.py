@@ -120,15 +120,6 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
     if not os.path.exists(f"{outdir}/kmeans{K}_umap"):
         os.mkdir(f"{outdir}/kmeans{K}_umap")
 
-    # Principal component analysis
-    logger.info("Performing principal component analysis...")
-    pc, pca = analysis.run_pca(z)
-    # logger.info("Generating volumes...")
-    # for i in range(num_pcs):
-    #     start, end = np.percentile(pc[:, i], (5, 95))
-    #     z_pc = analysis.get_pc_traj(pca, z.shape[1], 10, i + 1, start, end)
-    #     vg.gen_volumes(f"{outdir}/pc{i+1}", z_pc)
-
     # kmeans clustering on z
     logger.info("K-means clustering on z...")
     #pc = np.array(pc).reshape(N, num_pcs)
@@ -143,6 +134,14 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
     vg.gen_volumes(f"{outdir}/kmeans{K}_z", centers_z)
 
     # kmeans clustering on PCA
+        # Principal component analysis
+    logger.info("Performing PCA...")
+    pc, pca = analysis.run_pca(z)
+    # logger.info("Generating volumes...")
+    # for i in range(num_pcs):
+    #     start, end = np.percentile(pc[:, i], (5, 95))
+    #     z_pc = analysis.get_pc_traj(pca, z.shape[1], 10, i + 1, start, end)
+    #     vg.gen_volumes(f"{outdir}/pc{i+1}", z_pc)
     logger.info("K-means clustering on PCA...")
     kmeans_labels_pca, centers_pca = analysis.cluster_kmeans(pc, K)
     centers_pca, centers_ind_pca = analysis.get_nearest_point(pc, centers_pca)
@@ -163,6 +162,7 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
     
     # kmeans clustering on UMAPs
     if umap_emb is None:
+        logger.info(f"UMAP already calculated, uploading {outdir}/umap.pkl...")
         with open(f"{outdir}/umap.pkl", 'rb') as file:
             umap_emb = pickle.load(file)
     logger.info("K-means clustering on UMAPs...")
