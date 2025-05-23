@@ -13,8 +13,8 @@ SIF_DIR="${PYP_DIR}/pyp.sif"
 INPUT_FILE="$1"  # archivo pasado como argumento
 
 # Ejecutar dentro del contenedor
-echo "[INFO] Ejecutando refine3d con archivo de entrada: $INPUT_FILE"
+echo "[INFO] Ejecutando reconstruct3d_stats con archivo de entrada: $INPUT_FILE"
 singularity exec -B /hpc -B /nfs "$SIF_DIR" bash -c "
   cd /opt/pyp/external/frealignx && \
-  ./refine3d < \"$INPUT_FILE\"
+  ./reconstruct3d_stats < \"$INPUT_FILE\"
 "
