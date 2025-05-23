@@ -26,11 +26,11 @@ DEC_DIM=256
 DEC_LAYERS=3
 ZDIM=8
 DOWNSAMPLING=128
-N_EPOCHS=1 #De la iteración 0, la cantidad de épocas por iteración se controla con ALPHA
+N_EPOCHS=50 #De la iteración 0, la cantidad de épocas por iteración se controla con ALPHA
 
 #Parámetros de loop 
-NUM_ITER=3
-ALPHA=1 #Para controlar cantidad de épocas de cryoDRGN por iteración
+NUM_ITER=5
+ALPHA=10 #Para controlar cantidad de épocas de cryoDRGN por iteración
 
 #Parámetros de analysis_diego.py
 APIX=3.275
@@ -41,11 +41,18 @@ PYP_DIR="${DS_DIR}/nextpyp"
 SIF_DIR="${PYP_DIR}/pyp.sif"
 #INPUT_FILE_DIR="/nfs/bartesaghilab2/ds672/master/pipelines/empiar10076.txt"
 
+#Datos de las imágenes originales
+PIXEL_SIZE=1.31 #En angstroms
+IMAGE_SIZE=320 #En píxeles
+
+
+
 for ((i=0; i<NUM_ITER; i++)); do
   echo ">>> Iteración $i"
 
   cd "${WORK_DIR}/experiments" || exit 1
 
+  #Genero directorio de trabajo
   OUTPUT_DIR="${DATE}_z${ZDIM}_ds${DOWNSAMPLING}_iter${i}"
   mkdir $OUTPUT_DIR
 
@@ -73,10 +80,11 @@ for ((i=0; i<NUM_ITER; i++)); do
       --load "$OLD_OUTPUT_DIR/weights.$N_ANALYSIS.pkl" \
       --uninvert-data \
       -o "$OUTPUT_DIR" \
+      #> "$LOGFILE_DIR" 2>&1
 
       #Calculo número de época de análisis
-      ((N_ANALYSIS=N_EPOCHS-ALPHA))
-      #> "$LOGFILE_DIR" 2>&1
+      N_ANALYSIS=$((N_EPOCHS-1))
+      
     cd "${DS_DIR}/master/cryodrgn/commands" || exit 1
     echo "[INFO] Analizando resultados de entrenamiento con zdim=${ZDIM} - Log: $LOGFILE_DIR"
     python analyze_diego.py "$WORK_DIR/experiments/$OUTPUT_DIR" "$N_ANALYSIS" \
@@ -96,9 +104,9 @@ for ((i=0; i<NUM_ITER; i++)); do
     #Calculo algunos parámetros
     #echo "Alpha: ${ALPHA}"
     #echo "i: ${i}"
-    N_EPOCHS=$((N_EPOCHS+ALPHA*i))
+    N_EPOCHS=$((N_EPOCHS+ALPHA)) #En la primera iteración siempre tengo i=0
     #echo "Número de épocas: ${N_EPOCHS}"
-    N_ANALYSIS=$((N_EPOCHS-ALPHA))
+    N_ANALYSIS=$((N_EPOCHS-1)) #Así me quedo con la última
     
     #echo ""
     #echo "Número de análisis: ${N_ANALYSIS}"
@@ -264,8 +272,8 @@ EOF
 
   echo "[INFO] Ejecuto cryodrgn parse_pose_star..."
   cryodrgn parse_pose_star "$OUTPUT_STAR_DIR" \
-    --Apix 1.31 \
-    -D 320 \
+    --Apix "$PIXEL_SIZE" \
+    -D "$IMAGE_SIZE" \
     -o "$OUTPUT_PKL_DIR"
 
   echo "[INFO] Tratamiento de poses de iter ${i} completado."
