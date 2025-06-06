@@ -232,8 +232,8 @@ EOF
     cd "${DS_DIR}/master/pipelines"
     python crop_par.py "$INPUT_PAR_DIR" "$CROPPED_PAR_DIR" "$C"
 
-    echo "[INFO] Ejecuto restore_indexes_par.py..."
-    python restore_indexes_par.py \
+    echo "[INFO] Ejecuto arange2indexes.py..."
+    python arange2indexes.py \
     --par_file "${DS_DIR}/empiar10076/experiments/${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/kmeans5_umap/refine3d_output/parfile_iter${i}_cluster${j}_cropped.par" \
     --pkl_file "${DS_DIR}/empiar10076/experiments/${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/kmeans5_umap/particles_per_label/particles_class_${j}.pkl" \
     --output_file "${DS_DIR}/empiar10076/experiments/${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/kmeans5_umap/refine3d_output/parfile_iter${i}_cluster${j}_cropped_index_restored.par"
