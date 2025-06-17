@@ -102,7 +102,7 @@ def labels_processing(labels_pkl_path, particles_per_label_folder, output_folder
         log_file.write(f"Iteration number: {iter}\n")
     cont = 0
     files = os.listdir(particles_per_label_folder) 
-    files = sorted(files)
+    files = sorted([f for f in files if not f.endswith('-1.pkl')])
     for file in files:
         print(file)
         file_path = os.path.join(particles_per_label_folder, file)  # Corrección del path
