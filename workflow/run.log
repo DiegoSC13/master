@@ -1,0 +1,628 @@
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/empiar10076/inputs/initial_hidden_variables/all_particles/ctf_iter0_i.pkl --poses /nfs/bartesaghilab2/ds672/empiar10076/inputs/par_processed/poses_pyem_converted.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --ind /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.pkl --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/empiar10076/inputs/par_processed/poses_pyem_converted.pkl', ctf='/nfs/bartesaghilab2/ds672/empiar10076/inputs/initial_hidden_variables/all_particles/ctf_iter0_i.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=64778, ind='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.pkl', invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7fbecfae0280>)
+Use cuda True
+Filtering image dataset with /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.pkl
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/empiar10076/inputs/initial_hidden_variables/all_particles/ctf_iter0_i.pkl --poses /nfs/bartesaghilab2/ds672/empiar10076/inputs/par_processed/poses_pyem_converted.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/empiar10076/inputs/par_processed/poses_pyem_converted.pkl', ctf='/nfs/bartesaghilab2/ds672/empiar10076/inputs/initial_hidden_variables/all_particles/ctf_iter0_i.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=72056, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7f96fc2d0160>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=3259, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7fa3dcd7c040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=91739, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7f567e7d4040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=97537, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7f8cf897c040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=36059, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7fbcb65f4040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=6815, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7f7a19cbc040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+Loading ctf params from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl
+HetOnlyVAE(
+  (encoder): ResidLinearMLP(
+    (main): Sequential(
+      (0): MyLinear(in_features=12852, out_features=256, bias=True)
+      (1): ReLU()
+      (2): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (3): ReLU()
+      (4): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (5): ReLU()
+      (6): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (7): ReLU()
+      (8): MyLinear(in_features=256, out_features=16, bias=True)
+    )
+  )
+  (decoder): FTPositionalDecoder(
+    (decoder): ResidLinearMLP(
+      (main): Sequential(
+        (0): MyLinear(in_features=392, out_features=256, bias=True)
+        (1): ReLU()
+        (2): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (3): ReLU()
+        (4): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (5): ReLU()
+        (6): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (7): ReLU()
+        (8): MyLinear(in_features=256, out_features=2, bias=True)
+      )
+    )
+  )
+)
+3790354 parameters in model
+3491856 parameters in encoder
+298498 parameters in decoder
+Masked input image dimension 12852 is not a multiple of 8 -- AMP training speedup is not optimized!
+# [Train Epoch: 1/2] [1000/1000 particles] gen loss=0.686760, kld=3.642464, beta=0.125000, loss=0.686796
+# =====> Epoch: 1 Average gen loss = 0.679485, KLD = 1.765788, total loss = 0.679502; Finished in 0:00:06.954748
+Evaluating z
+# [Train Epoch: 2/2] [1000/1000 particles] gen loss=0.671164, kld=11.101589, beta=0.125000, loss=0.671272
+# =====> Epoch: 2 Average gen loss = 0.671253, KLD = 7.981852, total loss = 0.671330; Finished in 0:00:06.940310
+Evaluating z
+Training complete
+Evaluating z
+Finished in 0:00:24.993126 (0:00:12.496563 per epoch)
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=44921, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7fc58b5bc040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+Loading ctf params from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl
+HetOnlyVAE(
+  (encoder): ResidLinearMLP(
+    (main): Sequential(
+      (0): MyLinear(in_features=12852, out_features=256, bias=True)
+      (1): ReLU()
+      (2): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (3): ReLU()
+      (4): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (5): ReLU()
+      (6): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (7): ReLU()
+      (8): MyLinear(in_features=256, out_features=16, bias=True)
+    )
+  )
+  (decoder): FTPositionalDecoder(
+    (decoder): ResidLinearMLP(
+      (main): Sequential(
+        (0): MyLinear(in_features=392, out_features=256, bias=True)
+        (1): ReLU()
+        (2): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (3): ReLU()
+        (4): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (5): ReLU()
+        (6): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (7): ReLU()
+        (8): MyLinear(in_features=256, out_features=2, bias=True)
+      )
+    )
+  )
+)
+3790354 parameters in model
+3491856 parameters in encoder
+298498 parameters in decoder
+Masked input image dimension 12852 is not a multiple of 8 -- AMP training speedup is not optimized!
+# [Train Epoch: 1/2] [1000/1000 particles] gen loss=0.652614, kld=2.735904, beta=0.125000, loss=0.652641
+# =====> Epoch: 1 Average gen loss = 0.68335, KLD = 1.316072, total loss = 0.683363; Finished in 0:00:07.386154
+Evaluating z
+# [Train Epoch: 2/2] [1000/1000 particles] gen loss=0.672440, kld=7.308598, beta=0.125000, loss=0.672511
+# =====> Epoch: 2 Average gen loss = 0.672888, KLD = 5.575108, total loss = 0.672942; Finished in 0:00:07.145855
+Evaluating z
+Training complete
+Evaluating z
+Finished in 0:00:24.969620 (0:00:12.484810 per epoch)
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=56558, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7f5c2c810040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+Loading ctf params from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl
+HetOnlyVAE(
+  (encoder): ResidLinearMLP(
+    (main): Sequential(
+      (0): MyLinear(in_features=12852, out_features=256, bias=True)
+      (1): ReLU()
+      (2): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (3): ReLU()
+      (4): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (5): ReLU()
+      (6): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (7): ReLU()
+      (8): MyLinear(in_features=256, out_features=16, bias=True)
+    )
+  )
+  (decoder): FTPositionalDecoder(
+    (decoder): ResidLinearMLP(
+      (main): Sequential(
+        (0): MyLinear(in_features=392, out_features=256, bias=True)
+        (1): ReLU()
+        (2): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (3): ReLU()
+        (4): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (5): ReLU()
+        (6): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (7): ReLU()
+        (8): MyLinear(in_features=256, out_features=2, bias=True)
+      )
+    )
+  )
+)
+3790354 parameters in model
+3491856 parameters in encoder
+298498 parameters in decoder
+Masked input image dimension 12852 is not a multiple of 8 -- AMP training speedup is not optimized!
+# [Train Epoch: 1/2] [1000/1000 particles] gen loss=0.672900, kld=2.130039, beta=0.125000, loss=0.672921
+# =====> Epoch: 1 Average gen loss = 0.682163, KLD = 1.072529, total loss = 0.682173; Finished in 0:00:07.304186
+Evaluating z
+# [Train Epoch: 2/2] [1000/1000 particles] gen loss=0.671191, kld=8.591953, beta=0.125000, loss=0.671275
+# =====> Epoch: 2 Average gen loss = 0.671909, KLD = 5.817468, total loss = 0.671966; Finished in 0:00:06.893695
+Evaluating z
+Training complete
+Evaluating z
+Finished in 0:00:24.856012 (0:00:12.428006 per epoch)
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses  --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --ind /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.pkl --load /weights..pkl --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/workflow', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load='/weights..pkl', checkpoint=1, log_interval=1000, verbose=False, seed=48979, ind='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.pkl', invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7fcc6a404160>)
+Use cuda True
+Filtering image dataset with /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.pkl
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=56512, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7f79fe944040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+Loading ctf params from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl
+HetOnlyVAE(
+  (encoder): ResidLinearMLP(
+    (main): Sequential(
+      (0): MyLinear(in_features=12852, out_features=256, bias=True)
+      (1): ReLU()
+      (2): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (3): ReLU()
+      (4): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (5): ReLU()
+      (6): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (7): ReLU()
+      (8): MyLinear(in_features=256, out_features=16, bias=True)
+    )
+  )
+  (decoder): FTPositionalDecoder(
+    (decoder): ResidLinearMLP(
+      (main): Sequential(
+        (0): MyLinear(in_features=392, out_features=256, bias=True)
+        (1): ReLU()
+        (2): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (3): ReLU()
+        (4): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (5): ReLU()
+        (6): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (7): ReLU()
+        (8): MyLinear(in_features=256, out_features=2, bias=True)
+      )
+    )
+  )
+)
+3790354 parameters in model
+3491856 parameters in encoder
+298498 parameters in decoder
+Masked input image dimension 12852 is not a multiple of 8 -- AMP training speedup is not optimized!
+# [Train Epoch: 1/2] [1000/1000 particles] gen loss=0.674640, kld=2.631659, beta=0.125000, loss=0.674666
+# =====> Epoch: 1 Average gen loss = 0.681539, KLD = 1.496283, total loss = 0.681553; Finished in 0:00:03.438725
+Evaluating z
+# [Train Epoch: 2/2] [1000/1000 particles] gen loss=0.658460, kld=10.486285, beta=0.125000, loss=0.658562
+# =====> Epoch: 2 Average gen loss = 0.672059, KLD = 6.173086, total loss = 0.672119; Finished in 0:00:02.424913
+Evaluating z
+Training complete
+Evaluating z
+Finished in 0:00:12.376863 (0:00:06.188432 per epoch)
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses  --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --load /weights..pkl --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/workflow', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load='/weights..pkl', checkpoint=1, log_interval=1000, verbose=False, seed=27308, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7f98d05f4040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=64837, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7f6c7534c040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+Loading ctf params from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl
+HetOnlyVAE(
+  (encoder): ResidLinearMLP(
+    (main): Sequential(
+      (0): MyLinear(in_features=12852, out_features=256, bias=True)
+      (1): ReLU()
+      (2): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (3): ReLU()
+      (4): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (5): ReLU()
+      (6): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (7): ReLU()
+      (8): MyLinear(in_features=256, out_features=16, bias=True)
+    )
+  )
+  (decoder): FTPositionalDecoder(
+    (decoder): ResidLinearMLP(
+      (main): Sequential(
+        (0): MyLinear(in_features=392, out_features=256, bias=True)
+        (1): ReLU()
+        (2): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (3): ReLU()
+        (4): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (5): ReLU()
+        (6): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (7): ReLU()
+        (8): MyLinear(in_features=256, out_features=2, bias=True)
+      )
+    )
+  )
+)
+3790354 parameters in model
+3491856 parameters in encoder
+298498 parameters in decoder
+Masked input image dimension 12852 is not a multiple of 8 -- AMP training speedup is not optimized!
+# [Train Epoch: 1/2] [1000/1000 particles] gen loss=0.666650, kld=3.891193, beta=0.125000, loss=0.666688
+# =====> Epoch: 1 Average gen loss = 0.67935, KLD = 2.293563, total loss = 0.679372; Finished in 0:00:07.668317
+Evaluating z
+# [Train Epoch: 2/2] [1000/1000 particles] gen loss=0.657140, kld=9.153591, beta=0.125000, loss=0.657229
+# =====> Epoch: 2 Average gen loss = 0.671099, KLD = 8.556162, total loss = 0.671183; Finished in 0:00:07.074504
+Evaluating z
+Training complete
+Evaluating z
+Finished in 0:00:25.337575 (0:00:12.668788 per epoch)
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --load /weights..pkl --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load='/weights..pkl', checkpoint=1, log_interval=1000, verbose=False, seed=50746, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7f1542424040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+Loading ctf params from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl
+HetOnlyVAE(
+  (encoder): ResidLinearMLP(
+    (main): Sequential(
+      (0): MyLinear(in_features=12852, out_features=256, bias=True)
+      (1): ReLU()
+      (2): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (3): ReLU()
+      (4): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (5): ReLU()
+      (6): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (7): ReLU()
+      (8): MyLinear(in_features=256, out_features=16, bias=True)
+    )
+  )
+  (decoder): FTPositionalDecoder(
+    (decoder): ResidLinearMLP(
+      (main): Sequential(
+        (0): MyLinear(in_features=392, out_features=256, bias=True)
+        (1): ReLU()
+        (2): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (3): ReLU()
+        (4): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (5): ReLU()
+        (6): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (7): ReLU()
+        (8): MyLinear(in_features=256, out_features=2, bias=True)
+      )
+    )
+  )
+)
+3790354 parameters in model
+3491856 parameters in encoder
+298498 parameters in decoder
+Masked input image dimension 12852 is not a multiple of 8 -- AMP training speedup is not optimized!
+Loading checkpoint from /weights..pkl
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=12798, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7fb789d00040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+Loading ctf params from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl
+HetOnlyVAE(
+  (encoder): ResidLinearMLP(
+    (main): Sequential(
+      (0): MyLinear(in_features=12852, out_features=256, bias=True)
+      (1): ReLU()
+      (2): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (3): ReLU()
+      (4): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (5): ReLU()
+      (6): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (7): ReLU()
+      (8): MyLinear(in_features=256, out_features=16, bias=True)
+    )
+  )
+  (decoder): FTPositionalDecoder(
+    (decoder): ResidLinearMLP(
+      (main): Sequential(
+        (0): MyLinear(in_features=392, out_features=256, bias=True)
+        (1): ReLU()
+        (2): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (3): ReLU()
+        (4): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (5): ReLU()
+        (6): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (7): ReLU()
+        (8): MyLinear(in_features=256, out_features=2, bias=True)
+      )
+    )
+  )
+)
+3790354 parameters in model
+3491856 parameters in encoder
+298498 parameters in decoder
+Masked input image dimension 12852 is not a multiple of 8 -- AMP training speedup is not optimized!
+# [Train Epoch: 1/2] [1000/1000 particles] gen loss=0.672487, kld=2.771498, beta=0.125000, loss=0.672514
+# =====> Epoch: 1 Average gen loss = 0.680805, KLD = 1.241561, total loss = 0.680817; Finished in 0:00:07.235552
+Evaluating z
+# [Train Epoch: 2/2] [1000/1000 particles] gen loss=0.663881, kld=8.153619, beta=0.125000, loss=0.663960
+# =====> Epoch: 2 Average gen loss = 0.671522, KLD = 6.486938, total loss = 0.671585; Finished in 0:00:06.863375
+Evaluating z
+Training complete
+Evaluating z
+Finished in 0:00:24.322410 (0:00:12.161205 per epoch)
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --load /weights.1.pkl --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load='/weights.1.pkl', checkpoint=1, log_interval=1000, verbose=False, seed=12245, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7fe02fb68040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+Loading ctf params from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl
+HetOnlyVAE(
+  (encoder): ResidLinearMLP(
+    (main): Sequential(
+      (0): MyLinear(in_features=12852, out_features=256, bias=True)
+      (1): ReLU()
+      (2): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (3): ReLU()
+      (4): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (5): ReLU()
+      (6): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (7): ReLU()
+      (8): MyLinear(in_features=256, out_features=16, bias=True)
+    )
+  )
+  (decoder): FTPositionalDecoder(
+    (decoder): ResidLinearMLP(
+      (main): Sequential(
+        (0): MyLinear(in_features=392, out_features=256, bias=True)
+        (1): ReLU()
+        (2): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (3): ReLU()
+        (4): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (5): ReLU()
+        (6): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (7): ReLU()
+        (8): MyLinear(in_features=256, out_features=2, bias=True)
+      )
+    )
+  )
+)
+3790354 parameters in model
+3491856 parameters in encoder
+298498 parameters in decoder
+Masked input image dimension 12852 is not a multiple of 8 -- AMP training speedup is not optimized!
+Loading checkpoint from /weights.1.pkl
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load=None, checkpoint=1, log_interval=1000, verbose=False, seed=36340, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7f31f0ad4040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+Loading ctf params from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl
+HetOnlyVAE(
+  (encoder): ResidLinearMLP(
+    (main): Sequential(
+      (0): MyLinear(in_features=12852, out_features=256, bias=True)
+      (1): ReLU()
+      (2): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (3): ReLU()
+      (4): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (5): ReLU()
+      (6): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (7): ReLU()
+      (8): MyLinear(in_features=256, out_features=16, bias=True)
+    )
+  )
+  (decoder): FTPositionalDecoder(
+    (decoder): ResidLinearMLP(
+      (main): Sequential(
+        (0): MyLinear(in_features=392, out_features=256, bias=True)
+        (1): ReLU()
+        (2): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (3): ReLU()
+        (4): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (5): ReLU()
+        (6): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (7): ReLU()
+        (8): MyLinear(in_features=256, out_features=2, bias=True)
+      )
+    )
+  )
+)
+3790354 parameters in model
+3491856 parameters in encoder
+298498 parameters in decoder
+Masked input image dimension 12852 is not a multiple of 8 -- AMP training speedup is not optimized!
+# [Train Epoch: 1/2] [1000/1000 particles] gen loss=0.660063, kld=3.423309, beta=0.125000, loss=0.660097
+# =====> Epoch: 1 Average gen loss = 0.679579, KLD = 1.769979, total loss = 0.679597; Finished in 0:00:07.388260
+Evaluating z
+# [Train Epoch: 2/2] [1000/1000 particles] gen loss=0.677905, kld=8.549630, beta=0.125000, loss=0.677988
+# =====> Epoch: 2 Average gen loss = 0.671481, KLD = 7.352928, total loss = 0.671553; Finished in 0:00:07.050285
+Evaluating z
+Training complete
+Evaluating z
+Finished in 0:00:25.066310 (0:00:12.533155 per epoch)
+/nfs/bartesaghilab2/ds672/anaconda3/envs/cryodrgn/bin/cryodrgn train_vae /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc --ctf /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl --poses /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl --zdim 8 -n 2 --enc-dim 256 --enc-layers 3 --dec-dim 256 --dec-layers 3 --load /weights.1.pkl --uninvert-data -o 
+cryoDRGN 3.4.3
+Namespace(particles='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc', outdir='/nfs/bartesaghilab2/ds672/master/workflow', zdim=8, poses='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl', ctf='/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl', load='/weights.1.pkl', checkpoint=1, log_interval=1000, verbose=False, seed=61182, ind=None, invert_data=False, window=True, window_r=0.85, datadir=None, lazy=False, shuffler_size=0, num_workers=0, max_threads=16, ntilts=10, random_tilts=False, t_emb_dim=64, tlayers=3, tdim=1024, dose_per_tilt=None, angle_per_tilt=3, num_epochs=2, batch_size=8, wd=0, lr=0.0001, beta=None, beta_control=None, norm=None, amp=True, multigpu=False, do_pose_sgd=False, pretrain=1, emb_type='quat', pose_lr=0.0003, qlayers=3, qdim=256, encode_mode='resid', enc_mask=None, use_real=False, players=3, pdim=256, pe_type='gaussian', feat_sigma=0.5, pe_dim=None, domain='fourier', activation='relu', func=<function main at 0x7f7006be0040>)
+Use cuda True
+Loading dataset from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/particles_example_1000.mrc
+Loading ctf params from /nfs/bartesaghilab2/ds672/master/delete_me/example_1000/ctf_1000.pkl
+HetOnlyVAE(
+  (encoder): ResidLinearMLP(
+    (main): Sequential(
+      (0): MyLinear(in_features=12852, out_features=256, bias=True)
+      (1): ReLU()
+      (2): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (3): ReLU()
+      (4): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (5): ReLU()
+      (6): ResidLinear(
+        (linear): MyLinear(in_features=256, out_features=256, bias=True)
+      )
+      (7): ReLU()
+      (8): MyLinear(in_features=256, out_features=16, bias=True)
+    )
+  )
+  (decoder): FTPositionalDecoder(
+    (decoder): ResidLinearMLP(
+      (main): Sequential(
+        (0): MyLinear(in_features=392, out_features=256, bias=True)
+        (1): ReLU()
+        (2): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (3): ReLU()
+        (4): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (5): ReLU()
+        (6): ResidLinear(
+          (linear): MyLinear(in_features=256, out_features=256, bias=True)
+        )
+        (7): ReLU()
+        (8): MyLinear(in_features=256, out_features=2, bias=True)
+      )
+    )
+  )
+)
+3790354 parameters in model
+3491856 parameters in encoder
+298498 parameters in decoder
+Masked input image dimension 12852 is not a multiple of 8 -- AMP training speedup is not optimized!
+Loading checkpoint from /weights.1.pkl
