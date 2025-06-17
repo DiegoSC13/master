@@ -3,8 +3,8 @@
 import re
 import argparse
 
-def indexes2arange(archivo_star, salida_star):
-    with open(archivo_star, 'r') as f:
+def indexes2arange(archivo_par, salida_par):
+    with open(archivo_par, 'r') as f:
         lineas = f.readlines()
 
     nuevas_lineas = []
@@ -23,14 +23,14 @@ def indexes2arange(archivo_star, salida_star):
         else:
             nuevas_lineas.append(linea)
 
-    with open(salida_star, 'w') as f:
+    with open(salida_par, 'w') as f:
         f.writelines(nuevas_lineas)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Renumerar índices de imagen en un archivo .star")
-    parser.add_argument('--input_star', type=str, required=True, help='Ruta del archivo .star de entrada')
-    parser.add_argument('--output_star', type=str, required=True, help='Ruta del archivo .star de salida')
+    parser = argparse.ArgumentParser(description="Renumerar índices de imagen en un archivo .par")
+    parser.add_argument('--input_par', type=str, required=True, help='Ruta del archivo .par de entrada')
+    parser.add_argument('--output_par', type=str, required=True, help='Ruta del archivo .par de salida')
 
     args = parser.parse_args()
 
-    indexes2arange(args.input_star, args.output_star)
+    indexes2arange(args.input_par, args.output_par)
