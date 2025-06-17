@@ -9,7 +9,7 @@ DS_DIR="/nfs/bartesaghilab2/ds672"
 WORK_DIR="${DS_DIR}/empiar10076"
 
 # CryoDRGN inputs
-PARTICLES_DIR="${WORK_DIR}/empiar_data/L17Combine_weight_local.mrc"
+PARTICLES_DIR="${WORK_DIR}/downsampled_data/particles.128.mrcs"
 CTF_DIR="${WORK_DIR}/inputs/initial_hidden_variables/all_particles/ctf_iter0_i.pkl"
 INDEXES_DIR="${WORK_DIR}/inputs/initial_hidden_variables/filtered_particles/indexes.pkl"
 # PARTICLES_DIR="${DS_DIR}/master/delete_me/example_1000/particles_example_1000.mrc"
