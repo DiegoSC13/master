@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "$(dirname "$0")/config_10076.sh"
-
 echo ""
 echo "############################### POSES PROCESSING ###############################" 
 
@@ -9,6 +7,12 @@ i=$1
 OUTPUT_DIR=$2
 N_ANALYSIS=$3
 CLUSTER_PATH=$4
+CONFIG_NAME=$5
+
+SCRIPT_DIR="$(dirname "$0")"
+CONFIG_PATH="${SCRIPT_DIR}/${CONFIG_NAME}"
+
+source "$CONFIG_PATH"
 
 echo "[INFO] Ejecuto combine_pars.py..."
 cd "${DS_DIR}/master/pipelines"

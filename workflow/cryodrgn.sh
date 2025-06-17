@@ -1,17 +1,19 @@
 #!/bin/bash
 
-source "$(dirname "$0")/config_10076.sh"
-
 echo ""
 echo "############################### CRYODRGN ###############################" 
-
 
 i=$1
 POSES_DIR=$2
 OUTPUT_DIR=$3
 OLD_OUTPUT_DIR=$4
 OLD_N_ANALYSIS=$5
-#cond_param=$
+CONFIG_NAME=$6
+
+SCRIPT_DIR="$(dirname "$0")"
+CONFIG_PATH="${SCRIPT_DIR}/${CONFIG_NAME}"
+
+source "$CONFIG_PATH"
 
 #Calculo nuevo número de épocas
 N_EPOCHS=$((N_EPOCHS+ALPHA*i))

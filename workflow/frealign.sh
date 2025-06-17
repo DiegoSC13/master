@@ -1,20 +1,19 @@
 #!/bin/bash
 
-source "$(dirname "$0")/config_10076.sh"
-
 echo ""
 echo "############################### FREALIGN ###############################" 
-
-#Defino directorio de salida de .par's de refine3d
-cd "${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/"
-mkdir refine3d_output
-mkdir reconstruct3d_output
 
 i=$1
 OUTPUT_DIR=$2
 N_ANALYSIS=$3
 OLD_POSES=$4
 CLUSTER_PATH=$5
+CONFIG_NAME=$6
+
+SCRIPT_DIR="$(dirname "$0")"
+CONFIG_PATH="${SCRIPT_DIR}/${CONFIG_NAME}"
+
+source "$CONFIG_PATH"
 
 CLUSTER_IDS=$(python3 -c "
 import pickle
@@ -22,6 +21,11 @@ import numpy as np
 labels = pickle.load(open('${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/new_labels.pkl', 'rb'))
 print(' '.join(str(i) for i in np.unique(labels) if i != -1))
 ")
+
+#Defino directorio de salida de .par's de refine3d
+cd "${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/"
+mkdir refine3d_output
+mkdir reconstruct3d_output
 
 #Itero en los clusters
 #for ((j=0; j<NUM_CLUSTERS; j++)); do

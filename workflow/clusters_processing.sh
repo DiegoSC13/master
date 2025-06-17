@@ -1,9 +1,8 @@
 #!/bin/bash
 
-source "$(dirname "$0")/config_10076.sh"
-
 echo ""
 echo "############################### CLUSTERS PROCESSING ###############################" 
+
 i=$1
 OUTPUT_DIR=$2
 N_ANALYSIS=$3
@@ -11,6 +10,12 @@ CLUSTER_PATH=$4
 COMPLETE_PAR_DIR=$5
 OLD_OUTPUT_DIR=$6
 OLD_N_ANALYSIS=$7
+CONFIG_NAME=$8
+
+SCRIPT_DIR="$(dirname "$0")"
+CONFIG_PATH="${SCRIPT_DIR}/${CONFIG_NAME}"
+
+source "$CONFIG_PATH"
 
 cd "$DS_DIR/master/pipelines" || exit 1 
 python align_clusters.py \

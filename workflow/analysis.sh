@@ -1,13 +1,17 @@
 #!/bin/bash
 
-source "$(dirname "$0")/config_10076.sh"
-
 echo ""
 echo "############################### ANALYSIS ###############################" 
 
 i=$1
 OUTPUT_DIR=$2
 N_ANALYSIS=$3
+CONFIG_NAME=$4
+
+SCRIPT_DIR="$(dirname "$0")"
+CONFIG_PATH="${SCRIPT_DIR}/${CONFIG_NAME}"
+
+source "$CONFIG_PATH"
 
 cd "${DS_DIR}/master/cryodrgn/commands" || exit 1
 echo "[INFO] Analizando resultados de entrenamiento con zdim=${ZDIM}, Apix=${APIX} y k=${NUM_CLUSTERS} - Log: $LOGFILE_DIR"
