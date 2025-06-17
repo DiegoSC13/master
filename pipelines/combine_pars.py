@@ -35,6 +35,15 @@ def combinar_pars_con_indices_originales(directorio_pars, archivo_pkl, archivo_s
 
     # Usamos el header del primer archivo
     header_final = datos_por_archivo[0][0]
+
+    # Mover segunda y tercera línea del header al final
+    if len(header_final) >= 3:
+        segunda = header_final.pop(1)
+        tercera = header_final.pop(1)  # el nuevo índice 1 es la tercera original
+        lineas_extra = [segunda, tercera]
+    else:
+        lineas_extra = []
+
     nuevas_lineas = []
 
     # Contadores para acceder a las partículas por orden
@@ -52,6 +61,7 @@ def combinar_pars_con_indices_originales(directorio_pars, archivo_pkl, archivo_s
     with open(archivo_salida, 'w') as f:
         f.writelines(header_final)
         f.writelines(nuevas_lineas)
+        f.writelines(lineas_extra)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Combina archivos .par clásicos usando índices de un archivo .pkl.")
