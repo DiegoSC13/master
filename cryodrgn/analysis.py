@@ -14,6 +14,10 @@ from sklearn.manifold import TSNE
 from sklearn.mixture import GaussianMixture
 from typing import Optional, Union, Tuple, List
 from cryodrgn.commands import eval_vol
+#EDIT
+from sklearn.mixture import GaussianMixture
+from sklearn.cluster import KMeans, DBSCAN
+import hdbscan
 
 logger = logging.getLogger(__name__)
 
@@ -103,16 +107,40 @@ def run_umap(z: np.ndarray, **kwargs) -> np.ndarray:
 
 # Clustering
 
+from typing import Tuple, Optional
+import numpy as np
+from sklearn.cluster import KMeans
+import seaborn as sns
 
-def cluster_kmeans(
-    z: np.ndarray, K: int, on_data: bool = True, reorder: bool = True
+######## EDIT ##########
+def cluster_kmeans2(
+    z: np.ndarray,
+    K: int,
+    on_data: bool = True,
+    reorder: bool = True,
+    init_centers: Optional[np.ndarray] = None
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
-    Cluster z by K means clustering
-    Returns cluster labels, cluster centers
-    If reorder=True, reorders clusters according to agglomerative clustering of cluster centers
+    Cluster z by K means clustering.
+    
+    Parameters:
+    - z: Data to cluster.
+    - K: Number of clusters.
+    - on_data: If True, find the closest data point to each cluster center.
+    - reorder: If True, reorder clusters based on agglomerative clustering of cluster centers.
+    - init_centers: Optional initial cluster centers (shape: [K, D]).
+    
+    Returns:
+    - labels: Cluster assignments.
+    - centers: Cluster centers (possibly reordered and matched to data points).
     """
-    kmeans = KMeans(n_clusters=K, init="k-means++", n_init=10, random_state=42, max_iter=10)
+    kmeans = KMeans(
+        n_clusters=K,
+        init=init_centers if init_centers is not None else "k-means++",
+        n_init=1 if init_centers is not None else 10,
+        random_state=42,
+        max_iter=10,
+    )
     labels = kmeans.fit_predict(z)
     centers = kmeans.cluster_centers_
 
@@ -128,7 +156,129 @@ def cluster_kmeans(
             centers_ind = centers_ind[reordered]
         tmp = {k: i for i, k in enumerate(reordered)}
         labels = np.array([tmp[k] for k in labels])
+
     return labels, centers
+
+def aplicar_clustering(method, data, n_clusters=None, **kwargs):
+        if method == 'kmeans':
+            model = KMeans(n_clusters=n_clusters, **kwargs)
+            labels = model.fit_predict(data)
+        elif method == 'gmm':
+            model = GaussianMixture(n_components=n_clusters, **kwargs)
+            labels = model.fit(data).predict(data)
+        elif method == 'dbscan':
+            model = DBSCAN(**kwargs)
+            labels = model.fit_predict(data)
+        elif method == 'hdbscan':
+            model = hdbscan.HDBSCAN(**kwargs)
+            labels = model.fit_predict(data)
+        else:
+            raise ValueError("Método de clustering no soportado.")
+        
+        return labels
+    
+def plot_clusters(data, labels, title="Clustering", show_noise=True):
+        unique_labels = set(labels)
+        if not show_noise:
+            mask = labels != -1
+            data = data[mask]
+            labels = labels[mask]
+            unique_labels = set(labels)
+
+        plt.figure(figsize=(3,3))
+        for label in unique_labels:
+            cluster_points = data[labels == label]
+            plt.scatter(cluster_points[:, 0], cluster_points[:, 1],
+                        label=f"Cluster {label}" if label != -1 else "Ruido",
+                        alpha=0.6, edgecolors="k", s=10)
+        
+        plt.title(title)
+        plt.xlabel("UMAP1")
+        plt.ylabel("UMAP2")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
+
+def plot_by_cluster_2(
+    x,
+    y,
+    K,
+    labels,
+    centers=None,
+    centers_ind=None,
+    annotate=False,
+    s=2,
+    alpha=0.1,
+    colors=None,
+    cmap=None,
+    figsize=None,
+    ax=None,
+):
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
+    else:
+        fig = ax.get_figure()
+
+    if type(K) is int:
+        K = list(range(K))
+
+    if colors is None:
+        colors = _get_colors(len(K), cmap)
+
+    # scatter by cluster
+    for i in K:
+        ii = labels == i
+        x_sub = x[ii]
+        y_sub = y[ii]
+        ax.scatter(
+            x_sub,
+            y_sub,
+            s=s,
+            alpha=alpha,
+            label="cluster {}".format(i),
+            color=colors[i],
+            rasterized=True,
+        )
+
+    # plot cluster centers
+    if centers_ind is not None:
+        assert centers is None
+        centers = np.array([[x[i], y[i]] for i in centers_ind])
+    if centers is not None:
+        ax.scatter(centers[:, 0], centers[:, 1], c="k")
+    if annotate:
+        assert centers is not None
+        for i in K:
+            ax.annotate(str(i), centers[i, 0:2])
+    return fig, ax
+########## EDIT #########
+
+
+# def cluster_kmeans(
+#     z: np.ndarray, K: int, on_data: bool = True, reorder: bool = True
+# ) -> Tuple[np.ndarray, np.ndarray]:
+#     """
+#     Cluster z by K means clustering
+#     Returns cluster labels, cluster centers
+#     If reorder=True, reorders clusters according to agglomerative clustering of cluster centers
+#     """
+#     kmeans = KMeans(n_clusters=K, init="k-means++", n_init=10, random_state=42, max_iter=10)
+#     labels = kmeans.fit_predict(z)
+#     centers = kmeans.cluster_centers_
+
+#     centers_ind = None
+#     if on_data:
+#         centers, centers_ind = get_nearest_point(z, centers)
+
+#     if reorder:
+#         g = sns.clustermap(centers)
+#         reordered = g.dendrogram_row.reordered_ind
+#         centers = centers[reordered]
+#         if centers_ind is not None:
+#             centers_ind = centers_ind[reordered]
+#         tmp = {k: i for i, k in enumerate(reordered)}
+#         labels = np.array([tmp[k] for k in labels])
+#     return labels, centers
 
 
 def cluster_gmm(

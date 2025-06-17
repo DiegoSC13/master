@@ -16,6 +16,10 @@ import cryodrgn
 from cryodrgn import analysis, utils, config
 #Edit Diego
 import pickle
+from typing import Tuple, Optional
+from sklearn.mixture import GaussianMixture
+from sklearn.cluster import KMeans, DBSCAN
+
 
 logger = logging.getLogger(__name__)
 
@@ -83,8 +87,12 @@ def add_args(parser):
         default=True,
         help="En caso de haber calculado UMAPs antes, le paso el path acá y no lo vuelvo a calcular (default: %(default)s)",
     )
+    group.add_argument(
+        "--init_centers",
+        type=str,
+        help="Ruta a un archivo .txt con índices (uno por línea) de centroides iniciales. Si no se pasa, se eligen aleatoriamente.",
+    )
     return parser
-
 
 def analyze_z1(z, outdir, vg):
     """Plotting and volume generation for 1D z"""
@@ -107,7 +115,7 @@ def analyze_z1(z, outdir, vg):
     vg.gen_volumes(outdir, ztraj)
 
 
-def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
+def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20, init_centers=None):
     zdim = z.shape[1]
     K = num_ksamples
     N = len(z)
@@ -119,11 +127,17 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
         os.mkdir(f"{outdir}/kmeans{K}_pca")
     if not os.path.exists(f"{outdir}/kmeans{K}_umap"):
         os.mkdir(f"{outdir}/kmeans{K}_umap")
+    if not os.path.exists(f"{outdir}/gmm{K}_umap"):
+        os.mkdir(f"{outdir}/gmm{K}_umap")
+    if not os.path.exists(f"{outdir}/dbscan_umap"):
+        os.mkdir(f"{outdir}/dbscan_umap")
+    if not os.path.exists(f"{outdir}/hdbscan_umap"):
+        os.mkdir(f"{outdir}/hdbscan_umap")
 
     # kmeans clustering on z
     logger.info("K-means clustering on z...")
     #pc = np.array(pc).reshape(N, num_pcs)
-    kmeans_labels_z, centers_z = analysis.cluster_kmeans(z, K)
+    kmeans_labels_z, centers_z = analysis.cluster_kmeans(z, K)#, init_centers=init_centers)
     centers_z, centers_ind = analysis.get_nearest_point(z, centers_z)
     #if not os.path.exists(f"{outdir}/kmeans{K}"):
     #   os.mkdir(f"{outdir}/kmeans{K}")
@@ -133,20 +147,16 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
     logger.info("Generating center volumes for z-KMeans...")
     vg.gen_volumes(f"{outdir}/kmeans{K}_z", centers_z)
 
-    # kmeans clustering on PCA
-        # Principal component analysis
+    # Principal component analysis
     logger.info("Performing PCA...")
     pc, pca = analysis.run_pca(z)
-    # logger.info("Generating volumes...")
-    # for i in range(num_pcs):
-    #     start, end = np.percentile(pc[:, i], (5, 95))
-    #     z_pc = analysis.get_pc_traj(pca, z.shape[1], 10, i + 1, start, end)
-    #     vg.gen_volumes(f"{outdir}/pc{i+1}", z_pc)
+
     logger.info("K-means clustering on PCA...")
     kmeans_labels_pca, centers_pca = analysis.cluster_kmeans(pc, K)
     centers_pca, centers_ind_pca = analysis.get_nearest_point(pc, centers_pca)
     #if not os.path.exists(f"{outdir}/kmeans{K}"):
     #   os.mkdir(f"{outdir}/kmeans{K}")
+    utils.save_pkl(pc, f"{outdir}/pc.pkl")
     utils.save_pkl(kmeans_labels_pca, f"{outdir}/kmeans{K}_pca/labels.pkl")
     np.savetxt(f"{outdir}/kmeans{K}_pca/centers.txt", centers_pca)
     np.savetxt(f"{outdir}/kmeans{K}_pca/centers_ind.txt", centers_ind_pca, fmt="%d")
@@ -166,11 +176,9 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
         with open(f"{outdir}/umap.pkl", 'rb') as file:
             umap_emb = pickle.load(file)
     logger.info("K-means clustering on UMAPs...")
-    K = num_ksamples
-    kmeans_labels_umap, kmeans_centers_umap = analysis.cluster_kmeans(umap_emb, K)
+    kmeans_labels_umap, kmeans_centers_umap = analysis.cluster_kmeans2(umap_emb, K, init_centers=init_centers)
     kmeans_centers_umap, kmeans_centers_ind_umap = analysis.get_nearest_point(umap_emb, kmeans_centers_umap)
-    if not os.path.exists(f"{outdir}/kmeans{K}_umap"):
-        os.mkdir(f"{outdir}/kmeans{K}_umap")
+
     utils.save_pkl(kmeans_labels_umap, f"{outdir}/kmeans{K}_umap/labels.pkl")
     #np.savetxt(f"{outdir}/kmeans{K}_umap/kmeans_labels.txt", kmeans_labels_umap)
     np.savetxt(f"{outdir}/kmeans{K}_umap/centers.txt", kmeans_centers_umap)
@@ -182,14 +190,23 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20):
     #GMM clustering on UMAPs
     gmm_labels_umap, gmm_centers_umap = analysis.cluster_gmm(umap_emb, K)
     gmm_centers_umap, gmm_centers_ind_umap = analysis.get_nearest_point(umap_emb, gmm_centers_umap)
-    if not os.path.exists(f"{outdir}/gmm{K}_umap"):
-        os.mkdir(f"{outdir}/gmm{K}_umap")
+
     utils.save_pkl(gmm_labels_umap, f"{outdir}/gmm{K}_umap/labels.pkl")
     #np.savetxt(f"{outdir}/gmm{K}_umap/gmm_labels.txt", gmm_labels_umap)
     np.savetxt(f"{outdir}/gmm{K}_umap/centers.txt", gmm_centers_umap)
     np.savetxt(f"{outdir}/gmm{K}_umap/centers_ind.txt", gmm_centers_ind_umap, fmt="%d")
     logger.info("Generating volumes from GMM clustering...")
     vg.gen_volumes(f"{outdir}/gmm{K}_umap", z[gmm_centers_ind_umap])
+
+    logger.info("Generating volumes from DBSCAN clustering...")
+    labels_dbscan = analysis.aplicar_clustering('dbscan', umap_emb, eps=0.5, min_samples=50)
+    #analysis.plot_clusters(umap_emb, labels_dbscan, title="DBSCAN sobre UMAP")
+    utils.save_pkl(labels_dbscan, f"{outdir}/dbscan_umap/labels.pkl")
+
+    logger.info("Generating volumes from HDBSCAN clustering...")
+    labels_hdbscan = analysis.aplicar_clustering('hdbscan', umap_emb, min_cluster_size=50)
+    #analysis.plot_clusters(umap_emb, labels_hdbscan, title="HDBSCAN sobre UMAP")
+    utils.save_pkl(labels_hdbscan, f"{outdir}/hdbscan_umap/labels.pkl")
 
     # Make some plots
     logger.info("Generating plots...")
@@ -338,6 +355,21 @@ class VolumeGenerator:
 
 def main(args):
     t1 = dt.now()
+    #####
+    init_centers = None
+    if args.init_centers:
+        # Leer cada línea como un vector de floats
+        with open(args.init_centers, "r") as f:
+            init_centers = np.array([
+                list(map(float, line.strip().split()))
+                for line in f if line.strip()
+            ])
+
+        # Validación opcional
+        if init_centers.shape[1] != z.shape[1]:
+            raise ValueError(f"Los centros tienen dimensión {init_centers.shape[1]}, pero z tiene dimensión {z.shape[1]}")
+
+    #####
     E = args.epoch
     workdir = args.workdir
     zfile = f"{workdir}/z.{E}.pkl"
@@ -386,6 +418,7 @@ def main(args):
             skip_umap,
             num_pcs=args.pc,
             num_ksamples=args.ksample,
+            init_centers=args.init_centers
         )
 
     # copy over template if file doesn't exist
