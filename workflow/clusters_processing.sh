@@ -20,7 +20,7 @@ source "$CONFIG_PATH"
 cd "$DS_DIR/master/pipelines" || exit 1 
 python align_clusters.py \
     --X "${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/umap.pkl" \
-    --labels_prev "${OLD_OUTPUT_DIR}/analysis_diego.${OLD_N_ANALYSIS}/${CLUSTER_PATH}_umap/labels.pkl" \
+    --labels_prev "${OLD_OUTPUT_DIR}/analysis_diego.${OLD_N_ANALYSIS}/${CLUSTER_PATH}_umap/new_labels.pkl" \
     --labels_curr "${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/labels.pkl" \
     --output "${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/new_labels.pkl"
 
@@ -37,7 +37,7 @@ python generate_pars_per_cluster.py \
 cd "$DS_DIR/master/pipelines" || exit 1
 python mrc_from_pkl.py \
     --pkls_folder "${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/particles_per_label" \
-    --mrc_filepath "${DS_DIR}/empiar10076/empiar_data/L17Combine_weight_local.mrc" \
+    --mrc_filepath "${MRC_FILTERED_PATH}" \
     --output_folder "${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/mrc_cluster"
 
 cd "${DS_DIR}/master/workflow"
