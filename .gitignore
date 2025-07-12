@@ -6,8 +6,8 @@
 *.par
 *.star
 *.png
-aux_functions/__pycache__/compare_poses.cpython-39.pyc
-
+*.pyc
+*.log
 
 delete_me/refine3d_exps/par_92x/cryodrgn_output/*
 delete_me/refine3d_exps/par_orig/cryodrgn_output/*
