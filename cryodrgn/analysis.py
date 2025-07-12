@@ -254,31 +254,31 @@ def plot_by_cluster_2(
 ########## EDIT #########
 
 
-# def cluster_kmeans(
-#     z: np.ndarray, K: int, on_data: bool = True, reorder: bool = True
-# ) -> Tuple[np.ndarray, np.ndarray]:
-#     """
-#     Cluster z by K means clustering
-#     Returns cluster labels, cluster centers
-#     If reorder=True, reorders clusters according to agglomerative clustering of cluster centers
-#     """
-#     kmeans = KMeans(n_clusters=K, init="k-means++", n_init=10, random_state=42, max_iter=10)
-#     labels = kmeans.fit_predict(z)
-#     centers = kmeans.cluster_centers_
+def cluster_kmeans(
+    z: np.ndarray, K: int, on_data: bool = True, reorder: bool = True
+) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Cluster z by K means clustering
+    Returns cluster labels, cluster centers
+    If reorder=True, reorders clusters according to agglomerative clustering of cluster centers
+    """
+    kmeans = KMeans(n_clusters=K, init="k-means++", n_init=10, random_state=42, max_iter=10)
+    labels = kmeans.fit_predict(z)
+    centers = kmeans.cluster_centers_
 
-#     centers_ind = None
-#     if on_data:
-#         centers, centers_ind = get_nearest_point(z, centers)
+    centers_ind = None
+    if on_data:
+        centers, centers_ind = get_nearest_point(z, centers)
 
-#     if reorder:
-#         g = sns.clustermap(centers)
-#         reordered = g.dendrogram_row.reordered_ind
-#         centers = centers[reordered]
-#         if centers_ind is not None:
-#             centers_ind = centers_ind[reordered]
-#         tmp = {k: i for i, k in enumerate(reordered)}
-#         labels = np.array([tmp[k] for k in labels])
-#     return labels, centers
+    if reorder:
+        g = sns.clustermap(centers)
+        reordered = g.dendrogram_row.reordered_ind
+        centers = centers[reordered]
+        if centers_ind is not None:
+            centers_ind = centers_ind[reordered]
+        tmp = {k: i for i, k in enumerate(reordered)}
+        labels = np.array([tmp[k] for k in labels])
+    return labels, centers
 
 
 def cluster_gmm(

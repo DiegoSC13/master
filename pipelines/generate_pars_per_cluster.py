@@ -16,6 +16,7 @@ def labels_per_classes(labels_path, output_path):
         labels = pickle.load(file)
     N = len(labels)
     indexes = np.arange(1, N+1, 1, dtype=int)
+    #indexes = np.arange(0, N, 1, dtype=int)
 
     particle_per_class = defaultdict(list)
 
@@ -36,7 +37,7 @@ def labels_per_classes(labels_path, output_path):
     # Creamos el directorio
     os.makedirs(output_path)
     for class_, list_ in particle_per_class.items():
-        with open(output_path + f"/particles_class_{class_}.pkl", "wb") as file:
+        with open(output_path + f"/particles_class_{class_:02d}.pkl", "wb") as file:
             pickle.dump(list_, file)
     return
 
@@ -92,6 +93,9 @@ def labels_processing(labels_pkl_path, particles_per_label_folder, output_folder
         shutil.rmtree(output_folder)
     os.makedirs(output_folder)
 
+    with open(labels_pkl_path, 'rb') as file:
+        labels = pickle.load(file)
+
     # Crear el archivo de log en output_folder
     log_file_path = os.path.join(output_folder, "labels_processing.txt")
     with open(log_file_path, "w") as log_file:
@@ -100,18 +104,28 @@ def labels_processing(labels_pkl_path, particles_per_label_folder, output_folder
         log_file.write(f"Path to .par files per label: {output_folder}\n")
         log_file.write(f"Path to original .par file: {parfile_path}\n")
         log_file.write(f"Iteration number: {iter}\n")
-    cont = 0
+    #cont = 0
     files = os.listdir(particles_per_label_folder) 
     files = sorted([f for f in files if not f.endswith('-1.pkl')])
-    for file in files:
-        print(file)
-        file_path = os.path.join(particles_per_label_folder, file)  # Corrección del path
+
+    #Armo bien las etiquetas
+    labels_norepeat = list(set(labels))
+    # Eliminar -1 si está presente
+    if -1 in labels_norepeat:
+        labels_norepeat.remove(-1)
+    print(labels_norepeat)
+    
+    #for file in files:
+    for i in range(len(files)):
+        print(files[i])
+        file_path = os.path.join(particles_per_label_folder, files[i])  # Corrección del path
         with open(file_path, 'rb') as label_file:
             particles = pickle.load(label_file)
             particles = [x + metadata_row_num - 1  for x in particles] #Antes metadata_row_num=13 siempre y acá había un 12
-        output_parfile = os.path.join(output_folder, f'Cluster{cont}_iter{iter}.par')
+        output_parfile = os.path.join(output_folder, f'Cluster{labels_norepeat[i]}_iter{iter}.par')
+        print(output_parfile)
         select_rows_par(parfile_path, output_parfile, particles, metadata_row_num)
-        cont += 1
+        #cont += 1
     return
 
 if __name__ == "__main__":

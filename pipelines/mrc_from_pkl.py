@@ -24,6 +24,7 @@ def generar_mrc_desde_pkls(directorio_pkls, archivo_mrc_entrada, directorio_sali
                 
             # Ajustar los índices de 1-based a 0-based
             indices = [i - 1 for i in indices]
+            #indices = [i for i in indices]
 
             # Extraer las partículas correspondientes
             subset = data[indices]

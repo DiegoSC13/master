@@ -32,7 +32,7 @@ def restore_indexes_par(par_file, pkl_file, output_file):
     for nuevo_idx, linea in zip(nuevos_indices, datos):
         partes = linea.strip().split()
         partes[0] = str(nuevo_idx)
-        nueva_linea = '{:>7} {:>7} {:>7} {:>8} {:>10} {:>10} {:>7} {:>8} {:>8} {:>8} {:>7} {:>7} {:>8} {:>8} {:>10} {:>7} {:>7}'.format(*partes)
+        nueva_linea = '{:>7} {:>7} {:>7} {:>7} {:>9} {:>9} {:>7} {:>5} {:>8} {:>8} {:>7} {:>7} {:>7} {:>9} {:>10} {:>7} {:>7}'.format(*partes)
         datos_corregidos.append(nueva_linea + '\n')
 
     # Guardar el nuevo archivo .par
