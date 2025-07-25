@@ -12,7 +12,7 @@ DS_DIR="/nfs/bartesaghilab2/ds672"
 WORK_DIR="${DS_DIR}/empiar${DATASET}"
 #OUTPUT_DIR="${WORK_DIR}/experiments/2025_06_19_z8_ds${DS}"
 
-CLUSTER_PATH="kmeans${NUM_CLUSTERS}"
+CLUSTER_PATH="hdbscan" #${NUM_CLUSTERS}"
 ### EMPIAR-10076
 # COMPLETE_PAR_DIR="${DS_DIR}/master/delete_me/refine3d_exps/par_92x/exp4/output_refine3d_exp4_cropped_index_filtered.par"
 # MRC_FILTERED_PATH="${WORK_DIR}/inputs/initial_hidden_variables/filtered_particles/filtered_L17Combine_weight_local.mrc"

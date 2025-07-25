@@ -19,6 +19,8 @@ CLUSTER_METHOD="$2"
 export DATASET="$3"
 export DIM="$4"
 export NUM_CLUSTERS="$5"
+export DIM_UMAP="$6"
+
 echo "Dataset: $DATASET"
 echo "Dim: $DIM"
 echo "Cantidad de clusters: $NUM_CLUSTERS"
@@ -28,15 +30,26 @@ CONFIG_PATH="${SCRIPT_DIR}/${CONFIG_NAME}"
 source "$CONFIG_PATH"
 
 if [ "$CLUSTER_METHOD" == "KMEANS" ]; then
-  CLUSTER_PATH="kmeans${NUM_CLUSTERS}"
+  if [ "$DIM_UMAP" == "3" ]; then
+    CLUSTER_PATH="kmeans${NUM_CLUSTERS}_3d"
+  elif [ "$DIM_UMAP" == "2" ]; then
+    CLUSTER_PATH="kmeans${NUM_CLUSTERS}"
+  fi
 elif [ "$CLUSTER_METHOD" == "HDBSCAN" ]; then
-  CLUSTER_PATH="hdbscan"
+  if [ "$DIM_UMAP" == "3" ]; then
+    CLUSTER_PATH="hdbscan_3d"
+  elif [ "$DIM_UMAP" == "2" ]; then
+    CLUSTER_PATH="hdbscan"
+  fi
+  
 else
   echo "[ERROR] Método de clustering no reconocido: $CLUSTER_METHOD"
   exit 1
 fi
 
 echo "Cluster Method: $CLUSTER_METHOD"
+echo "UMAPs Dimension: $DIM_UMAP"
+echo "Cluster Path: $CLUSTER_PATH"
 
 #source /nfs/bartesaghilab2/ds672/master/delete_me/vars.txt
 
@@ -86,6 +99,35 @@ else
   exit 1
 fi
 
+# Resolución máxima, voy bajándola en cada iteración
+#HIGH_RES_LIMIT=9
+HIGH_RES_LIMIT_LIST=(6 5 4 3 3 3 2 2 2)
+for ((i=1; i<NUM_ITER; i++)); do
+  echo "[INFO] >>> Iteración $i"
+  HIGH_RES_LIMIT=${HIGH_RES_LIMIT_LIST[$((i-1))]}
+  OUTPUT_DIR="/nfs/bartesaghilab2/ds672/master/workflow/experiments/empiar${DATASET}/${DATE}_z${ZDIM}_ds${DOWNSAMPLING}_${CLUSTER_PATH}_iter${i}"
+  #OUTPUT_DIR="/nfs/bartesaghilab2/ds672/master/workflow/experiments/empiar10076_example1000/${DATE}_z${ZDIM}_ds${DOWNSAMPLING}_iter${i}"
+  #OUTPUT_DIR="/nfs/bartesaghilab2/ds672/master/workflow/experiments/empiar10180/${DATE}_z${ZDIM}_ds${DOWNSAMPLING}_iter${i}"
+  
+  POSES_DIR="$OUTPUT_PKL_DIR"
+
+  source "$(dirname "$0")/cryodrgn.sh" "$i" "$POSES_DIR" "$OUTPUT_DIR" "$OLD_OUTPUT_DIR" "$OLD_N_ANALYSIS" "$CONFIG_NAME"
+  bash "$(dirname "$0")/analysis.sh" "$i" "$OUTPUT_DIR" "$N_ANALYSIS" "$CONFIG_NAME"
+  source "$(dirname "$0")/clusters_processing.sh" "$i" "$OUTPUT_DIR" "$N_ANALYSIS" "$CLUSTER_PATH" "$COMPLETE_PAR_DIR" "$OLD_OUTPUT_DIR" "$OLD_N_ANALYSIS" "$CONFIG_NAME"
+  if [ "$CLUSTER_METHOD" == "KMEANS" ]; then
+    source "$(dirname "$0")/frealign_kmeans.sh" "$i" "$OUTPUT_DIR" "$N_ANALYSIS" "$OLD_POSES" "$CLUSTER_PATH" "$CONFIG_NAME" "$HIGH_RES_LIMIT"
+  elif [ "$CLUSTER_METHOD" == "HDBSCAN" ]; then
+    source "$(dirname "$0")/frealign_hdbscan.sh" "$i" "$OUTPUT_DIR" "$N_ANALYSIS" "$OLD_POSES" "$CLUSTER_PATH" "$CONFIG_NAME" "$HIGH_RES_LIMIT"
+  fi
+ # source "$(dirname "$0")/frealign_kmeans.sh" "$i" "$OUTPUT_DIR" "$N_ANALYSIS" "$OLD_POSES" "$CLUSTER_PATH" "$CONFIG_NAME" "$HIGH_RES_LIMIT"
+  source "$(dirname "$0")/poses_processing.sh" "$i" "$OUTPUT_DIR" "$N_ANALYSIS" "$CLUSTER_PATH" "$CONFIG_NAME" 
+done
+
+echo "[INFO] Todos los entrenamientos completados."
+
+######################################
+#Definiciones viejas que no me animo a borrar
+
 ### Entradas EMPIAR-10076 - Ejemplo de 1000 partículas 
 # OUTPUT_PKL_DIR="/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl" #Change me
 # OLD_OUTPUT_DIR="/nfs/bartesaghilab2/ds672/master/workflow/experiments/empiar10076_example1000"
@@ -132,23 +174,3 @@ fi
 # OLD_MAPS_DIR="/nfs/bartesaghilab2/ds672/master/workflow/base_conditions/filtered_Nrefs/empiar10180_${CLUSTER_PATH}_ds${DIM}/reconstruct3d_output" 
 # KMEANS_CENTERS="/nfs/bartesaghilab2/ds672/master/workflow/base_conditions/filtered_Nrefs/empiar10180_${CLUSTER_PATH}_ds${DIM}/cryodrgn/centers.txt"
 # COMPLETE_PAR_DIR="/nfs/bartesaghilab2/ds672/master/delete_me/empiar10180/consensus_data_MT_filtered_2arange.par"
-
-# Resolución máxima, voy bajándola en cada iteración
-HIGH_RES_LIMIT=9
-
-for ((i=1; i<NUM_ITER; i++)); do
-  echo "[INFO] >>> Iteración $i"
-  OUTPUT_DIR="/nfs/bartesaghilab2/ds672/master/workflow/experiments/empiar${DATASET}/${DATE}_z${ZDIM}_ds${DOWNSAMPLING}_iter${i}"
-  #OUTPUT_DIR="/nfs/bartesaghilab2/ds672/master/workflow/experiments/empiar10076_example1000/${DATE}_z${ZDIM}_ds${DOWNSAMPLING}_iter${i}"
-  #OUTPUT_DIR="/nfs/bartesaghilab2/ds672/master/workflow/experiments/empiar10180/${DATE}_z${ZDIM}_ds${DOWNSAMPLING}_iter${i}"
-  
-  POSES_DIR="$OUTPUT_PKL_DIR"
-
-  source "$(dirname "$0")/cryodrgn.sh" "$i" "$POSES_DIR" "$OUTPUT_DIR" "$OLD_OUTPUT_DIR" "$OLD_N_ANALYSIS" "$CONFIG_NAME"
-  bash "$(dirname "$0")/analysis.sh" "$i" "$OUTPUT_DIR" "$N_ANALYSIS" "$CONFIG_NAME"
-  source "$(dirname "$0")/clusters_processing.sh" "$i" "$OUTPUT_DIR" "$N_ANALYSIS" "$CLUSTER_PATH" "$COMPLETE_PAR_DIR" "$OLD_OUTPUT_DIR" "$OLD_N_ANALYSIS" "$CONFIG_NAME"
-  source "$(dirname "$0")/frealign_kmeans.sh" "$i" "$OUTPUT_DIR" "$N_ANALYSIS" "$OLD_POSES" "$CLUSTER_PATH" "$CONFIG_NAME" "$HIGH_RES_LIMIT"
-  source "$(dirname "$0")/poses_processing.sh" "$i" "$OUTPUT_DIR" "$N_ANALYSIS" "$CLUSTER_PATH" "$CONFIG_NAME" 
-done
-
-echo "[INFO] Todos los entrenamientos completados."

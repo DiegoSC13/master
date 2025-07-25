@@ -33,6 +33,7 @@ python combine_pars_updated.py \
 #Creo carpeta para salidas
 mkdir "${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/poses_files"
 COMPLETE_PAR_DIR="${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/refine3d_output/parfile_iter${i}_complete.par"
+COMPLETE_PAR_DIR_CORRECTED="${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/refine3d_output/parfile_iter${i}_complete_corrected.par"
 INPUT_STAR_DIR="${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/poses_files/pyem_file_iter${i}.star" #salida de par2star.py / entrada de modify_star.py
 OUTPUT_STAR_DIR="${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/poses_files/poses_4parse_iter${i}.star" #salida de modify_star.py / entrada de cryodrgn parse_pose_star
 OUTPUT_SHORT_PKL_DIR="${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/poses_files/poses_4cryodrgn_iter${i}.pkl" #salida de cryodrgn parse_pose_star. Poses para nueva iteración #EDIT: Agrego 0s para no romper iteración cuando hay índices de filtrado
@@ -44,9 +45,13 @@ OUTPUT_PKL_DIR="${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/
 # cd "${DS_DIR}/master/pipelines"
 # python crop_par.py "$INPUT_PAR_DIR" "$CROPPED_PAR_DIR" "$C"
 
+echo "[INFO] Ejecuto correct_indexes.py..."
+cd "${DS_DIR}/master/pipelines"
+python correct_indexes.py "$COMPLETE_PAR_DIR" "$COMPLETE_PAR_DIR_CORRECTED"
+
 echo "[INFO] Ejecuto par2star.py..."
 cd "${DS_DIR}/pyem/pyem/cli"
-python par2star.py "$COMPLETE_PAR_DIR" "$INPUT_STAR_DIR"
+python par2star.py "$COMPLETE_PAR_DIR_CORRECTED" "$INPUT_STAR_DIR"
 
 echo "[INFO] Ejecuto modify_star.py..."
 cd "${DS_DIR}/master/pipelines"

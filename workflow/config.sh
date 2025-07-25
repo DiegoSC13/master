@@ -63,7 +63,7 @@ if [ "$DATASET" == "10076" ]; then
     APIX=1.31
     ENC_DIM=1024
     DEC_DIM=1024 
-    NUM_ITER=15
+    NUM_ITER=10
   fi
 elif [ "$DATASET" == "10180" ]; then
   echo "Dataset == 10180"
@@ -74,7 +74,9 @@ elif [ "$DATASET" == "10180" ]; then
   MOLECULAR_MASS=3000
   WEIGHTING_FACTOR=10
   INVERT_CONTRAST="yes"
-  MRC_FILTERED_PATH="${WORK_DIR}/downsampled_data/particles.orig.imod_stack_filtered.mrcs" #Para mrcs_from_pkl.py
+  # MRC_FILTERED_PATH="${WORK_DIR}/downsampled_data/particles.orig.imod_stack_filtered.mrcs" #Para mrcs_from_pkl.py
+  MRC_FILTERED_PATH="${WORK_DIR}/downsampled_data/particles.orig.imod_stack.mrcs" #Para mrcs_from_pkl.py
+
   if [ "$DIM" == "128" ]; then
     echo "Dim == 128"
     PARTICLES_DIR="${WORK_DIR}/downsampled_data/particles.128.mrcs"
@@ -90,7 +92,7 @@ elif [ "$DATASET" == "10180" ]; then
     APIX=3.398
     ENC_DIM=1024
     DEC_DIM=1024
-    NUM_ITER=15
+    NUM_ITER=10
     # echo "Enc-Dim == $ENC_DIM"
     # echo "Dec-Dim == $DEC_DIM"
   elif [ "$DIM" == "320" ]; then
@@ -100,7 +102,7 @@ elif [ "$DATASET" == "10180" ]; then
     APIX=1.6999
     ENC_DIM=1024
     DEC_DIM=1024
-    NUM_ITER=15
+    NUM_ITER=10
   fi
 else
   echo "Dataset no reconocido: $DATASET"

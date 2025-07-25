@@ -19,6 +19,7 @@ python analyze_diego.py "$OUTPUT_DIR" "$N_ANALYSIS" \
   --skip-vol \
   --Apix $APIX  \
   --ksample $NUM_CLUSTERS \
+  --min-clusters $((NUM_CLUSTERS-1)) \
   #> "$LOGFILE_DIR" 2>&1
 
 #Guardo el outdir de esta iteración para cargar los últimos pesos en la que viene

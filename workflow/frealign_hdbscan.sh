@@ -85,11 +85,23 @@ EOF
 )
 echo "i: $i, j: $j, i-1: $((i-1))"
   #Armo entrada a refine3d
+  if [ -f "${OLD_MAPS_DIR}/res_iter$((i-1))_cluster${j}.mrc" ]; then
+    REFERENCE_MAP="${OLD_MAPS_DIR}/res_iter$((i-1))_cluster${j}.mrc"
+    REFERENCE_STATS="${OLD_MAPS_DIR}/stats_iter$((i-1))_cluster${j}.txt"
+  else
+    if [ "$DATASET" == "10076" ]; then
+      REFERENCE_MAP="${DS_DIR}/master/delete_me/reconstruct3d_exps/par_92x_refined/exp4_redo/output_res.mrc"
+      REFERENCE_STATS="${DS_DIR}/master/delete_me/reconstruct3d_exps/par_92x_refined/exp4_redo/output_reconstruction3d_stats.txt"
+    elif [ "$DATASET" == "10180" ]; then
+      REFERENCE_MAP="${DS_DIR}/master/delete_me/empiar10180/reconstruct3d/exp24/res.mrc"
+      REFERENCE_STATS="${DS_DIR}/master/delete_me/empiar10180/reconstruct3d/exp24/reconstruction3d_stats.txt"
+    fi
+  fi
   REFINE3D_INPUT=$(cat <<EOF
 ${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/mrc_cluster/particles_class_${j_padded}.mrc
 ${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/parfiles_per_label/Cluster${j}_iter${i}2arange.par
-${OLD_MAPS_DIR}/res_iter$((i-1))_cluster${j}.mrc
-${OLD_MAPS_DIR}/stats_iter$((i-1))_cluster${j}.txt
+${REFERENCE_MAP}
+${REFERENCE_STATS}
 yes
 ${WORK_DIR}/dont_care.mrc
 ${OUTPUT_DIR}/analysis_diego.${N_ANALYSIS}/${CLUSTER_PATH}_umap/refine3d_output/parfile_iter${i}_cluster${j}.par
@@ -106,7 +118,7 @@ ${MOLECULAR_MASS}
 30
 150
 30
-${HIGH_RES_LIMIT}
+$((HIGH_RES_LIMIT))
 0
 0
 140
