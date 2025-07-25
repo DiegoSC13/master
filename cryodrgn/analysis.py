@@ -97,13 +97,19 @@ def run_tsne(
     return z_embedded
 
 
-def run_umap(z: np.ndarray, **kwargs) -> np.ndarray:
+# def run_umap(z: np.ndarray, **kwargs) -> np.ndarray:
+#     import umap  # CAN GET STUCK IN INFINITE IMPORT LOOP
+
+#     reducer = umap.UMAP(**kwargs)
+#     z_embedded = reducer.fit_transform(z)
+#     return z_embedded
+
+def run_umap(z: np.ndarray, n_components = 2) -> np.ndarray:
     import umap  # CAN GET STUCK IN INFINITE IMPORT LOOP
 
-    reducer = umap.UMAP(**kwargs)
+    reducer = umap.UMAP(n_components)
     z_embedded = reducer.fit_transform(z)
     return z_embedded
-
 
 # Clustering
 
@@ -159,7 +165,7 @@ def cluster_kmeans2(
 
     return labels, centers
 
-def aplicar_clustering(method, data, n_clusters=None, **kwargs):
+def aplicar_clustering(method, data, n_clusters=None, min_cluster_size=1000, min_samples=None, **kwargs):
         if method == 'kmeans':
             model = KMeans(n_clusters=n_clusters, **kwargs)
             labels = model.fit_predict(data)
@@ -170,7 +176,9 @@ def aplicar_clustering(method, data, n_clusters=None, **kwargs):
             model = DBSCAN(**kwargs)
             labels = model.fit_predict(data)
         elif method == 'hdbscan':
-            model = hdbscan.HDBSCAN(**kwargs)
+            model = hdbscan.HDBSCAN(min_cluster_size=min_cluster_size,
+                                    min_samples=min_samples,
+                                    cluster_selection_method='eom')
             labels = model.fit_predict(data)
         else:
             raise ValueError("Método de clustering no soportado.")

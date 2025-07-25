@@ -19,6 +19,7 @@ import pickle
 from typing import Tuple, Optional
 from sklearn.mixture import GaussianMixture
 from sklearn.cluster import KMeans, DBSCAN
+import hdbscan
 
 
 logger = logging.getLogger(__name__)
@@ -43,6 +44,12 @@ def add_args(parser):
         "--skip-vol", action="store_true", help="Skip generation of volumes"
     )
     parser.add_argument("--skip-umap", action="store_true", help="Skip running UMAP")
+
+    parser.add_argument(
+        "--min-clusters",
+        type=int,
+        help="Mínimo de clusters para HDBSCAN.",
+    )
 
     group = parser.add_argument_group("Extra arguments for volume generation")
     group.add_argument(
@@ -92,6 +99,7 @@ def add_args(parser):
         type=str,
         help="Ruta a un archivo .txt con índices (uno por línea) de centroides iniciales. Si no se pasa, se eligen aleatoriamente.",
     )
+    
     return parser
 
 def analyze_z1(z, outdir, vg):
@@ -114,8 +122,33 @@ def analyze_z1(z, outdir, vg):
     ztraj = np.percentile(z, np.linspace(5, 95, 10))
     vg.gen_volumes(outdir, ztraj)
 
+#Agrego muy desprolijo
+def cluster_hdbscan(data, min_clusters=5, min_cluster_size=1000, min_samples=None):
+    """
+    Clustering usando HDBSCAN, ideal para clusters densos y desbalanceados.
+    """
+    if min_clusters == None:
+        min_clusters = 5
+    if min_samples == None:
+        min_samples = min_cluster_size
+    n_clusters = 0
 
-def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20, init_centers=None):
+    print(f'{type(n_clusters)=}')
+    print(f'{type(min_clusters)=}')
+
+    while n_clusters < min_clusters and min_samples > 0:
+        clusterer = hdbscan.HDBSCAN(min_cluster_size=min_cluster_size,
+                                     min_samples=min_samples,
+                                     cluster_selection_method='eom')
+        labels = clusterer.fit_predict(data)
+        
+        min_samples = int(min_samples // 2)
+        n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
+        print(f'{n_clusters=}')
+    
+    return labels, clusterer
+
+def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20, init_centers=None, min_clusters=5):
     zdim = z.shape[1]
     K = num_ksamples
     N = len(z)
@@ -133,6 +166,10 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20, init_
         os.mkdir(f"{outdir}/dbscan_umap")
     if not os.path.exists(f"{outdir}/hdbscan_umap"):
         os.mkdir(f"{outdir}/hdbscan_umap")
+    if not os.path.exists(f"{outdir}/kmeans{K}_3d_umap"):
+        os.mkdir(f"{outdir}/kmeans{K}_3d_umap")
+    if not os.path.exists(f"{outdir}/hdbscan_3d_umap"):
+        os.mkdir(f"{outdir}/hdbscan_3d_umap")
 
     # kmeans clustering on z
     logger.info("K-means clustering on z...")
@@ -167,9 +204,12 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20, init_
     umap_emb = None
     if zdim > 2 and not skip_umap:
         logger.info("Running UMAP...")
-        umap_emb = analysis.run_umap(z)
+        umap_emb = analysis.run_umap(z) #zdim debería
+        umap_3d = analysis.run_umap(z, n_components=3)
         utils.save_pkl(umap_emb, f"{outdir}/umap.pkl")
+        utils.save_pkl(umap_3d, f"{outdir}/umap_3d.pkl")
     
+
     # kmeans clustering on UMAPs
     if umap_emb is None:
         logger.info(f"UMAP already calculated, uploading {outdir}/umap.pkl...")
@@ -185,6 +225,19 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20, init_
     np.savetxt(f"{outdir}/kmeans{K}_umap/centers_ind.txt", kmeans_centers_ind_umap, fmt="%d")
     logger.info("Generating center volumes for UMAP-KMeans...")
     vg.gen_volumes(f"{outdir}/kmeans{K}_umap", z[kmeans_centers_ind_umap])
+    ############################################
+    
+    ############################################
+    #UMAP 3D
+    kmeans_labels_umap_3d, kmeans_centers_umap_3d = analysis.cluster_kmeans2(umap_3d, K, init_centers=init_centers)
+    kmeans_centers_umap_3d, kmeans_centers_ind_umap_3d = analysis.get_nearest_point(umap_3d, kmeans_centers_umap_3d)
+
+    utils.save_pkl(kmeans_labels_umap_3d, f"{outdir}/kmeans{K}_3d_umap/labels.pkl")
+    #np.savetxt(f"{outdir}/kmeans{K}_umap_3d/kmeans_labels.txt", kmeans_labels_umap_3d)
+    np.savetxt(f"{outdir}/kmeans{K}_3d_umap/centers.txt", kmeans_centers_umap_3d)
+    np.savetxt(f"{outdir}/kmeans{K}_3d_umap/centers_ind.txt", kmeans_centers_ind_umap_3d, fmt="%d")
+    logger.info("Generating center volumes for UMAP_3d-KMeans...")
+    vg.gen_volumes(f"{outdir}/kmeans{K}_3d_umap", z[kmeans_centers_ind_umap_3d])
     ############################################
 
     #GMM clustering on UMAPs
@@ -204,9 +257,14 @@ def analyze_zN(z, outdir, vg, skip_umap=False, num_pcs=2, num_ksamples=20, init_
     utils.save_pkl(labels_dbscan, f"{outdir}/dbscan_umap/labels.pkl")
 
     logger.info("Generating volumes from HDBSCAN clustering...")
-    labels_hdbscan = analysis.aplicar_clustering('hdbscan', umap_emb, min_cluster_size=50)
+    labels_hdbscan, _ = cluster_hdbscan(umap_emb, min_clusters)
     #analysis.plot_clusters(umap_emb, labels_hdbscan, title="HDBSCAN sobre UMAP")
     utils.save_pkl(labels_hdbscan, f"{outdir}/hdbscan_umap/labels.pkl")
+
+    logger.info("Generating volumes from HDBSCAN clustering on 3D UMAPs...")
+    labels_hdbscan_3d, _ = cluster_hdbscan(umap_3d, min_clusters)
+    #analysis.plot_clusters(umap_emb, labels_hdbscan, title="HDBSCAN sobre UMAP")
+    utils.save_pkl(labels_hdbscan_3d, f"{outdir}/hdbscan_3d_umap/labels.pkl")
 
     # Make some plots
     logger.info("Generating plots...")
@@ -418,7 +476,8 @@ def main(args):
             skip_umap,
             num_pcs=args.pc,
             num_ksamples=args.ksample,
-            init_centers=args.init_centers
+            init_centers=args.init_centers, 
+            min_clusters=args.min_clusters
         )
 
     # copy over template if file doesn't exist
