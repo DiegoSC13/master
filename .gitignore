@@ -21,3 +21,5 @@ delete_me/*
 
 *.mrc
 aux_functions/.ipynb_checkpoints/*
+
+aux_functions/.ipynb_checkpoints/test-checkpoint.ipynb

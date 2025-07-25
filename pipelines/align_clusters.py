@@ -24,8 +24,19 @@ def remap_cluster_labels(X, labels_prev, labels_curr):
     if len(prev_ids) == 0 or len(curr_ids) == 0:
         return labels_curr  # No hay nada que emparejar
     
-    prev_centroids = np.array([X[labels_prev == i].mean(axis=0) for i in prev_ids])
-    curr_centroids = np.array([X[labels_curr == i].mean(axis=0) for i in curr_ids])
+    # prev_centroids = np.array([X[labels_prev == i].mean(axis=0) for i in prev_ids])
+    # curr_centroids = np.array([X[labels_curr == i].mean(axis=0) for i in curr_ids])
+
+    prev_centroids = np.array([
+        X[labels_prev == i].mean(axis=0)
+        for i in prev_ids
+        if np.any(labels_prev == i)
+    ])
+    curr_centroids = np.array([
+        X[labels_curr == i].mean(axis=0)
+        for i in curr_ids
+        if np.any(labels_curr == i)
+    ])
     
     distance_matrix = cdist(curr_centroids, prev_centroids)
     row_ind, col_ind = linear_sum_assignment(distance_matrix)
