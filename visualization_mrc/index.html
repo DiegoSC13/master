@@ -9,13 +9,20 @@
   <h2>Mapa de densidad interactivo (.mrc)</h2>
   <div style="width: 800px; height: 600px; position: relative;" id="viewer"></div>
   <script>
-    let element = document.getElementById("viewer");
-    let config = { backgroundColor: "white" };
-    let viewer = $3Dmol.createViewer(element, config);
-    $3Dmol.download("https://dl.dropboxusercontent.com/scl/fi/z6pp0aam0ibbu3imsqwks/consensues_10180.mrc", viewer, {}, function() {
-        viewer.zoomTo();
-        viewer.render();
-    });
+    const params = new URLSearchParams(window.location.search);
+    const fileUrl = params.get("file");
+
+    if (!fileUrl) {
+      document.getElementById("viewer").innerHTML = "<p style='color:red;'>No se especificó ningún archivo .mrc en la URL.</p>";
+    } else {
+      let element = document.getElementById("viewer");
+      let config = { backgroundColor: "white" };
+      let viewer = $3Dmol.createViewer(element, config);
+      $3Dmol.download(decodeURIComponent(fileUrl), viewer, {}, function() {
+          viewer.zoomTo();
+          viewer.render();
+      });
+    }
   </script>
 </body>
 </html>
