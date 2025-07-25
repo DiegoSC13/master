@@ -1,6 +1,5 @@
 *.cs
 *.pkl
-*.mrc
 *.npy
 *.txt
 *.par
@@ -18,3 +17,6 @@ delete_me/debugging_filtered_iteration2/*
 delete_me/debugging_filtered_iteration3/*
 delete_me/debugging_filtered_iteration4/*
 delete_me/debugging_filtered_iteration5/*
+delete_me/*
+
+*.mrc
