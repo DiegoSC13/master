@@ -90,11 +90,11 @@ echo "i: $i, j: $j, i-1: $((i-1))"
     REFERENCE_STATS="${OLD_MAPS_DIR}/stats_iter$((i-1))_cluster${j}.txt"
   else
     if [ "$DATASET" == "10076" ]; then
-      REFERENCE_MAP="${DS_DIR}/master/delete_me/reconstruct3d_exps/par_92x_refined/exp4_redo/output_res.mrc"
-      REFERENCE_STATS="${DS_DIR}/master/delete_me/reconstruct3d_exps/par_92x_refined/exp4_redo/output_reconstruction3d_stats.txt"
+      REFERENCE_MAP="${DS_DIR}/master/read_write_scripts/reconstruct3d_exps/par_92x_refined/exp4_redo/output_res.mrc"
+      REFERENCE_STATS="${DS_DIR}/master/read_write_scripts/reconstruct3d_exps/par_92x_refined/exp4_redo/output_reconstruction3d_stats.txt"
     elif [ "$DATASET" == "10180" ]; then
-      REFERENCE_MAP="${DS_DIR}/master/delete_me/empiar10180/reconstruct3d/exp24/res.mrc"
-      REFERENCE_STATS="${DS_DIR}/master/delete_me/empiar10180/reconstruct3d/exp24/reconstruction3d_stats.txt"
+      REFERENCE_MAP="${DS_DIR}/master/read_write_scripts/empiar10180/reconstruct3d/exp24/res.mrc"
+      REFERENCE_STATS="${DS_DIR}/master/read_write_scripts/empiar10180/reconstruct3d/exp24/reconstruction3d_stats.txt"
     fi
   fi
   REFINE3D_INPUT=$(cat <<EOF

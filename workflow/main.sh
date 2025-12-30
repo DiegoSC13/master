@@ -126,7 +126,7 @@ done
 echo "[INFO] Todos los entrenamientos completados."
 
 ######################################
-#Definiciones viejas que no me animo a borrar
+#Old code
 
 ### Entradas EMPIAR-10076 - Ejemplo de 1000 partículas 
 # OUTPUT_PKL_DIR="/nfs/bartesaghilab2/ds672/master/delete_me/example_1000/poses_1000.pkl" #Change me
