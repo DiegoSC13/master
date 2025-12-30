@@ -107,4 +107,5 @@ while explicitly modeling conformational heterogeneity.
 ### Author
 Diego Silvera
 Master’s Thesis
-Heterogeneous Cryo-EM Reconstruction using Deep Generative Models
+Improving Heterogeneous Resolution in Cryo-EM Volumes Reconstructions with Pose Refinement
+
